@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Resume Builder</title>
+
+    <!-- jsPDF library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- html2canvas library (for capturing styled HTML) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -800,4 +805,85 @@
                             <h3>${name}</h3>
                             ${tech ? `<p><strong>Technologies:</strong> ${tech}</p>` : ''}
                             ${desc ? `<p>${desc}</p>` : ''}
-                            ${url ? `<p><a href="${url}" target="_blank" style="color: #667eea;">${url}</a></p
+                            ${url ? `<p><a href="${url}" target="_blank" style="color: #667eea;">${url}</a></p>` : ''}
+                        </div>`;
+                    }
+                });
+                content += `</div>`;
+            }
+
+            previewContent.innerHTML = content;
+        }
+
+        // Dynamic section handlers
+        function addExperience() {
+            const container = document.getElementById('experienceContainer');
+            const template = container.querySelector('.dynamic-section');
+            const clone = template.cloneNode(true);
+            clone.querySelectorAll('input, textarea').forEach(el => el.value = '');
+            container.appendChild(clone);
+        }
+
+        function addEducation() {
+            const container = document.getElementById('educationContainer');
+            const template = container.querySelector('.dynamic-section');
+            const clone = template.cloneNode(true);
+            clone.querySelectorAll('input').forEach(el => el.value = '');
+            container.appendChild(clone);
+        }
+
+        function addProject() {
+            const container = document.getElementById('projectsContainer');
+            const template = container.querySelector('.dynamic-section');
+            const clone = template.cloneNode(true);
+            clone.querySelectorAll('input, textarea').forEach(el => el.value = '');
+            container.appendChild(clone);
+        }
+
+        function removeSection(button) {
+            const section = button.closest('.dynamic-section');
+            section.remove();
+            updatePreview();
+        }
+
+        // Updated generatePDF() function
+        async function generatePDF() {
+            const previewElement = document.getElementById('resumePreview');
+
+            // Use html2canvas to render the preview section
+            const canvas = await html2canvas(previewElement, {
+                scale: 2,
+                useCORS: true
+            });
+
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jspdf.jsPDF('p', 'pt', 'a4');
+
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pageWidth;
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+            let position = 0;
+
+            if (pdfHeight > pageHeight) {
+                let heightLeft = pdfHeight;
+                while (heightLeft > 0) {
+                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+                    heightLeft -= pageHeight;
+                    if (heightLeft > 0) {
+                        pdf.addPage();
+                        position = -pageHeight + heightLeft;
+                    }
+                }
+            } else {
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            }
+
+            pdf.save('Resume.pdf');
+        }
+    </script>
+</body>
+</html>
