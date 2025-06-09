@@ -846,44 +846,68 @@
             updatePreview();
         }
 
-        // Updated generatePDF() function
+        
         async function generatePDF() {
-            const previewElement = document.getElementById('resumePreview');
+    const previewElement = document.getElementById('resumePreview');
 
-            // Use html2canvas to render the preview section
-            const canvas = await html2canvas(previewElement, {
-                scale: 2,
-                useCORS: true
-            });
+    // Temporarily set the preview width to A4 size for accurate scaling
+    const originalWidth = previewElement.style.width;
+    const originalBoxShadow = previewElement.style.boxShadow;
+    const originalBorder = previewElement.style.border;
+    previewElement.style.width = '794px'; // A4 at 96 DPI: 794px x 1123px
+    previewElement.style.boxShadow = 'none';
+    previewElement.style.border = 'none';
 
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jspdf.jsPDF('p', 'pt', 'a4');
+    // Wait for styles to apply
+    await new Promise(resolve => setTimeout(resolve, 10));
 
-            const pageWidth = pdf.internal.pageSize.getWidth();
-            const pageHeight = pdf.internal.pageSize.getHeight();
+    // Render with high scale for sharpness
+    const canvas = await html2canvas(previewElement, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#fff",
+        logging: false,
+        // scrollY: -window.scrollY, // (optional) ensure not clipped by scroll
+        windowWidth: previewElement.scrollWidth,
+        windowHeight: previewElement.scrollHeight
+    });
 
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pageWidth;
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    // Restore preview original styles
+    previewElement.style.width = originalWidth;
+    previewElement.style.boxShadow = originalBoxShadow;
+    previewElement.style.border = originalBorder;
 
-            let position = 0;
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jspdf.jsPDF('p', 'pt', 'a4');
 
-            if (pdfHeight > pageHeight) {
-                let heightLeft = pdfHeight;
-                while (heightLeft > 0) {
-                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
-                    heightLeft -= pageHeight;
-                    if (heightLeft > 0) {
-                        pdf.addPage();
-                        position = -pageHeight + heightLeft;
-                    }
-                }
-            } else {
-                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    // Get the aspect ratio to fit the content nicely
+    const imgProps = pdf.getImageProperties(imgData);
+    const imgWidth = pageWidth;
+    const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+
+    // If the content fits on one page:
+    if (imgHeight <= pageHeight) {
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight, '', 'FAST');
+    } else {
+        // Split across multiple pages
+        let position = 0;
+        let heightLeft = imgHeight;
+
+        while (heightLeft > 0) {
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, '', 'FAST');
+            heightLeft -= pageHeight;
+            if (heightLeft > 0) {
+                pdf.addPage();
+                position -= pageHeight;
             }
-
-            pdf.save('Resume.pdf');
         }
+    }
+
+    pdf.save('Resume.pdf');
+}
     </script>
 </body>
 </html>
