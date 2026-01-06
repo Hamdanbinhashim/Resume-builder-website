@@ -55,12 +55,14 @@
         /* --- Header --- */
         .app-header {
             background: white;
-            padding: 1.5rem 2rem;
+            padding: 1rem 2rem;
             border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 10;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .brand {
@@ -82,27 +84,70 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .header-actions {
+        .header-controls {
             display: flex;
-            gap: 1rem;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
+        /* Tools Group */
+        .tools-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-right: 15px;
+            border-right: 1px solid #e5e7eb;
+            margin-right: 15px;
+        }
+
+        .color-picker-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            /* Hidden by default, toggled via JS */
+            display: none; 
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            overflow: hidden;
+            padding: 0;
+            background: none;
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        input[type="color"]::-webkit-color-swatch { border: 2px solid #ddd; border-radius: 50%; }
+
         .btn {
-            padding: 0.6rem 1.2rem;
+            padding: 0.6rem 1rem;
             border-radius: 8px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
-            border: none;
+            border: 1px solid transparent;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
+            gap: 6px;
+            font-size: 0.85rem;
+            background: white;
+            color: var(--text-main);
+            border-color: #d1d5db;
         }
+
+        .btn:hover { background: #f9fafb; border-color: #9ca3af; }
 
         .btn-primary {
             background: var(--primary);
             color: white;
+            border: none;
             box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
         }
 
@@ -116,6 +161,7 @@
             display: flex;
             flex: 1;
             overflow: hidden;
+            position: relative;
         }
 
         /* --- Sidebar Editor --- */
@@ -126,6 +172,7 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
+            transition: transform 0.3s ease;
         }
 
         .editor-content {
@@ -163,7 +210,7 @@
             color: #374151;
         }
 
-        .form-input, .form-textarea {
+        .form-input, .form-textarea, .form-select {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #d1d5db;
@@ -174,7 +221,7 @@
             background: white;
         }
 
-        .form-input:focus, .form-textarea:focus {
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
@@ -183,6 +230,48 @@
         .form-textarea {
             resize: vertical;
             min-height: 100px;
+        }
+
+        /* Image Upload Styles */
+        .photo-upload-container {
+            border: 2px dashed #d1d5db;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            position: relative;
+        }
+        
+        .photo-upload-container:hover { border-color: var(--primary); background: #f5f3ff; }
+        
+        .photo-preview-mini {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 10px;
+            display: none;
+            border: 2px solid var(--primary);
+        }
+        
+        .photo-label { font-size: 0.85rem; color: var(--text-muted); }
+        .photo-input { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            opacity: 0; cursor: pointer; 
+        }
+        .remove-photo-btn {
+            display: none;
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #ef4444;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
         }
 
         /* Dynamic Lists (Experience, etc) */
@@ -198,21 +287,32 @@
             border-radius: 8px;
             padding: 1rem;
             position: relative;
+            transition: all 0.2s;
         }
+        
+        .dynamic-item:hover { border-color: #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
 
-        .remove-btn {
+        .item-actions {
             position: absolute;
             top: 0.5rem;
             right: 0.5rem;
-            color: #ef4444;
-            background: none;
-            border: none;
+            display: flex;
+            gap: 4px;
+        }
+
+        .action-btn {
+            color: #6b7280;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
             cursor: pointer;
-            font-size: 0.9rem;
-            padding: 4px;
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
         }
         
-        .remove-btn:hover { color: #dc2626; }
+        .action-btn:hover { background: #e5e7eb; color: #1f2937; }
+        .btn-delete:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; }
 
         .add-btn {
             width: 100%;
@@ -299,6 +399,26 @@
             /* No padding here, padding is handled by template classes */
         }
 
+        /* --- Mobile Toggle Button --- */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 100;
+            cursor: pointer;
+            font-size: 1.2rem;
+            align-items: center;
+            justify-content: center;
+        }
+
         /* --------------------------------------------------------
            TEMPLATE STYLES
            -------------------------------------------------------- */
@@ -306,7 +426,7 @@
         /* Base Resume Styles */
         .resume-content {
             width: 100%;
-            height: 100%;
+            min-height: 297mm; /* Force exact A4 height minimum */
             box-sizing: border-box;
             font-size: 11pt;
             line-height: 1.5;
@@ -322,7 +442,11 @@
         .r-section { margin-bottom: 20px; }
         .r-section-title { font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
         .r-item { margin-bottom: 12px; }
-        .r-header { margin-bottom: 25px; }
+        .r-header { margin-bottom: 25px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; }
+        .r-header-text { flex: 1; }
+        .r-photo-container { width: 100px; height: 100px; margin-left: 20px; flex-shrink: 0; }
+        .r-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        
         .r-name { font-size: 24pt; font-weight: bold; line-height: 1.2; }
         .r-role { font-size: 14pt; margin-bottom: 8px; }
         .r-contacts { display: flex; flex-wrap: wrap; gap: 15px; font-size: 9pt; }
@@ -335,182 +459,216 @@
         .r-skill-tag { font-size: 0.9em; }
 
         /* === 1. CLASSIC TEMPLATE === */
-        .tpl-classic {
-            padding: 40px;
-            font-family: 'Merriweather', serif;
-        }
-        .tpl-classic .r-section-title {
-            border-bottom: 1px solid #333;
-            padding-bottom: 5px;
-            font-size: 12pt;
-        }
-        .tpl-classic .r-name { text-align: center; }
-        .tpl-classic .r-role { text-align: center; color: #444; font-style: italic; }
+        .tpl-classic { padding: 40px; font-family: 'Merriweather', serif; }
+        .tpl-classic .r-header { display: block; text-align: center; }
+        .tpl-classic .r-photo-container { margin: 0 auto 15px; width: 110px; height: 110px; }
+        .tpl-classic .r-section-title { border-bottom: 1px solid #333; padding-bottom: 5px; font-size: 12pt; }
+        .tpl-classic .r-role { color: #444; font-style: italic; }
         .tpl-classic .r-contacts { justify-content: center; margin-top: 10px; }
 
         /* === 2. MODERN TEMPLATE === */
-        .tpl-modern {
-            padding: 40px;
-            font-family: 'Inter', sans-serif;
-        }
-        .tpl-modern .r-name { color: #2563eb; }
-        .tpl-modern .r-section-title {
-            color: #2563eb;
-            font-size: 10pt;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
-        .tpl-modern .r-date { color: #2563eb; font-weight: 500; }
-        .tpl-modern .r-skill-tag {
-            background: #eff6ff;
-            color: #1e40af;
-            padding: 4px 10px;
-            border-radius: 4px;
-        }
+        .tpl-modern { padding: 40px; font-family: 'Inter', sans-serif; }
+        .tpl-modern .r-name { color: var(--primary); }
+        .tpl-modern .r-section-title { color: var(--primary); font-size: 10pt; letter-spacing: 1px; margin-bottom: 15px; }
+        .tpl-modern .r-date { color: var(--primary); font-weight: 500; }
+        .tpl-modern .r-skill-tag { background: #eff6ff; color: var(--primary-dark); padding: 4px 10px; border-radius: 4px; }
+        .tpl-modern .r-photo { border-radius: 12px; } /* Square-ish for modern */
 
         /* === 3. EXECUTIVE TEMPLATE === */
-        .tpl-executive {
-            font-family: 'Inter', sans-serif;
-        }
-        .tpl-executive .r-header {
-            background: #1f2937;
-            color: white;
-            padding: 40px;
-            margin-bottom: 30px;
-        }
+        .tpl-executive { font-family: 'Inter', sans-serif; }
+        .tpl-executive .r-header { background: #1f2937; color: white; padding: 40px; margin-bottom: 30px; display: flex; align-items: center; }
+        .tpl-executive .r-photo-container { border: 3px solid white; border-radius: 50%; width: 120px; height: 120px; }
         .tpl-executive .r-section { padding: 0 40px; }
         .tpl-executive .r-name { color: white; text-transform: uppercase; letter-spacing: 2px; }
         .tpl-executive .r-role { color: #9ca3af; }
         .tpl-executive .r-contact-link { color: #d1d5db; }
-        .tpl-executive .r-section-title {
-            border-left: 4px solid #1f2937;
-            padding-left: 10px;
-            font-size: 14pt;
-            background: #f3f4f6;
-            padding: 5px 10px;
-        }
+        .tpl-executive .r-section-title { border-left: 4px solid #1f2937; padding-left: 10px; font-size: 14pt; background: #f3f4f6; padding: 5px 10px; }
 
         /* === 4. MINIMALIST TEMPLATE === */
-        .tpl-minimalist {
-            padding: 50px;
-            font-family: 'Inter', sans-serif;
-            text-align: center;
-        }
-        .tpl-minimalist .r-header { border-bottom: none; margin-bottom: 40px; }
+        .tpl-minimalist { padding: 50px; font-family: 'Inter', sans-serif; text-align: center; }
+        .tpl-minimalist .r-header { border-bottom: none; margin-bottom: 40px; display: block; }
+        .tpl-minimalist .r-photo-container { margin: 0 auto 20px; width: 100px; height: 100px; }
         .tpl-minimalist .r-name { font-weight: 300; font-size: 32pt; letter-spacing: -1px; }
-        .tpl-minimalist .r-section-title {
-            text-align: center;
-            font-size: 9pt;
-            letter-spacing: 3px;
-            color: #999;
-            margin-bottom: 20px;
-        }
+        .tpl-minimalist .r-section-title { text-align: center; font-size: 9pt; letter-spacing: 3px; color: #999; margin-bottom: 20px; }
         .tpl-minimalist .r-item { text-align: left; max-width: 600px; margin: 0 auto 20px; }
         .tpl-minimalist .r-date { float: none; display: block; margin-bottom: 4px; font-size: 0.85em; }
         .tpl-minimalist .r-skills { justify-content: center; }
         .tpl-minimalist .r-contacts { justify-content: center; }
 
         /* === 5. SIDEBAR TEMPLATE === */
-        .tpl-sidebar {
-            display: flex;
-            height: 100%;
-            font-family: 'Inter', sans-serif;
+        .tpl-sidebar { 
+            display: flex; 
+            min-height: 100%; 
+            font-family: 'Inter', sans-serif; 
+            /* Linear Gradient to ensure background extends to bottom */
+            background: linear-gradient(to right, #f1f5f9 32%, #ffffff 32%);
         }
-        .sidebar-left {
-            width: 32%;
-            background: #f1f5f9;
-            padding: 30px;
-            color: #334155;
-            min-height: 297mm; /* Force height for bg */
+        .sidebar-left { 
+            width: 32%; 
+            background: transparent; 
+            padding: 30px; 
+            color: #334155; 
+            min-height: 297mm; 
+            display: flex; 
+            flex-direction: column; 
         }
-        .sidebar-right {
-            width: 68%;
-            padding: 40px;
-        }
-        .tpl-sidebar .r-name { font-size: 20pt; line-height: 1.1; margin-bottom: 10px; color: #0f172a; }
-        .tpl-sidebar .r-header { margin-bottom: 30px; }
+        .sidebar-right { width: 68%; padding: 40px; }
+        .tpl-sidebar .r-photo-container { width: 140px; height: 140px; margin: 0 auto 20px; border: 4px solid white; border-radius: 50%; overflow: hidden; }
+        .tpl-sidebar .r-photo { width: 100%; height: 100%; }
+        .tpl-sidebar .r-name { font-size: 20pt; line-height: 1.1; margin-bottom: 10px; color: #0f172a; text-align: center; }
+        .tpl-sidebar .r-role { text-align: center; font-size: 11pt; margin-bottom: 20px; }
         .tpl-sidebar .r-contacts { flex-direction: column; gap: 8px; }
         .tpl-sidebar .left-section { margin-bottom: 30px; }
         .tpl-sidebar .section-label { font-weight: bold; text-transform: uppercase; font-size: 0.8em; margin-bottom: 10px; color: #64748b; letter-spacing: 1px; }
-        .tpl-sidebar .r-section-title { 
-            color: #0f172a; 
-            border-bottom: 2px solid #e2e8f0; 
-            padding-bottom: 8px;
+        .tpl-sidebar .r-section-title { color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+
+        /* === 6. TIMELINE TEMPLATE === */
+        .tpl-timeline { padding: 40px; font-family: 'Inter', sans-serif; }
+        .tpl-timeline .r-header { border-bottom: 2px solid var(--border-color); padding-bottom: 20px; margin-bottom: 30px; }
+        .tpl-timeline .r-name { color: var(--text-main); text-transform: uppercase; letter-spacing: 2px; }
+        .tpl-timeline .r-role { color: var(--primary); font-weight: 500; }
+        .tpl-timeline .r-section-title { 
+            color: var(--primary); 
+            font-size: 11pt; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+        .tpl-timeline .r-section-title::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; }
+        .tpl-timeline .r-item { 
+            border-left: 2px solid #e5e7eb; 
+            padding-left: 20px; 
+            padding-bottom: 20px; 
+            margin-left: 5px; 
+            position: relative; 
+        }
+        .tpl-timeline .r-item::before {
+            content: '';
+            position: absolute;
+            left: -6px; /* -2px border / 2 - 5px radius */
+            top: 4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid white;
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+        .tpl-timeline .r-photo { border-radius: 8px; }
 
         /* --- PRINT STYLES (CRITICAL FOR PDF) --- */
         @media print {
-            body { 
-                background: white; 
-                padding: 0; 
-            }
-            
-            /* Hide UI elements */
-            .app-header, 
-            .editor-panel, 
-            .template-selector,
-            .add-btn,
-            .remove-btn {
-                display: none !important;
+            /* Remove default browser margins to avoid white bottom strips */
+            @page {
+                margin: 0;
             }
 
-            /* Reset Container to full width/height for print */
+            /* Reset body/html to basic values to prevent clipping */
+            body, html {
+                width: 100% !important;
+                height: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background-color: white !important;
+                overflow: visible !important;
+            }
+
+            /* HIDE UI ELEMENTS */
+            .app-header, 
+            .editor-panel, 
+            .mobile-toggle,
+            .template-selector, 
+            .add-btn,
+            .remove-btn,
+            .item-actions,
+            .photo-label, 
+            .remove-photo-btn { 
+                display: none !important; 
+            }
+
+            /* RESET LAYOUT CONTAINERS to Block/Flow */
             .app-container {
-                max-width: none;
-                margin: 0;
-                background: white;
-                border: none;
-                box-shadow: none;
-                height: auto;
-                display: block; /* Override flex */
+                position: static !important;
+                width: 100% !important;
+                height: auto !important;
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+                background: transparent !important;
+                overflow: visible !important;
+                display: block !important;
             }
 
             .workspace {
-                display: block;
-                overflow: visible;
+                position: static !important;
+                width: 100% !important;
+                height: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: visible !important;
+                display: block !important;
             }
 
             .preview-panel {
-                padding: 0;
-                background: white;
-                display: block;
-                overflow: visible;
-                height: auto;
+                position: static !important;
+                width: 100% !important;
+                height: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: transparent !important;
+                overflow: visible !important;
+                display: block !important;
             }
 
+            /* ENSURE RESUME PAGE IS VISIBLE */
             .a4-page {
-                margin: 0;
-                box-shadow: none;
-                width: 100%;
-                min-height: auto;
-                page-break-after: always;
+                margin: 0 !important;
+                width: 100% !important;
+                box-shadow: none !important;
+                border: none !important;
+                min-height: auto !important;
             }
 
-            /* Prevent cutting inside elements */
-            .r-item, .r-section, .r-header {
-                page-break-inside: avoid;
-            }
-            /* Ensure background colors print */
+            /* Fix Colors & Links */
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-            /* Clean Links in Print: No blue text, no underlines, but standard text color */
-            a {
-                color: inherit !important;
-                text-decoration: none !important;
+            a { 
+                color: inherit !important; 
+                text-decoration: none !important; 
             }
-            /* Hide URL on links in print */
-            a[href]:after {
-                content: none !important;
+            a[href]:after { 
+                content: none !important; 
+            }
+            
+            /* Page Break Logic */
+            .r-item, .r-section, .r-header { 
+                page-break-inside: avoid; 
             }
         }
 
         /* Mobile Responsive */
         @media (max-width: 1024px) {
             .app-container { height: auto; border-radius: 0; margin: 0; }
-            .workspace { flex-direction: column; }
-            .editor-panel { width: 100%; border-right: none; max-height: 50vh; }
+            .workspace { flex-direction: column; height: auto; }
+            .editor-panel { width: 100%; border-right: none; height: auto; overflow: visible; }
+            .preview-panel { display: none; } /* Hidden by default on mobile */
+            
+            /* Mobile Toggle Logic */
+            body.show-preview .editor-panel { display: none; }
+            body.show-preview .preview-panel { display: block; padding: 20px; }
+            body.show-preview .a4-page { width: 100%; min-height: auto; transform: scale(1); }
+            
+            .mobile-toggle { display: flex; }
+            .tools-group { border-right: none; margin-right: 0; padding-right: 0; }
+            .header-actions { width: 100%; justify-content: center; margin-top: 10px; }
         }
     </style>
 </head>
@@ -523,10 +681,29 @@
                 <i class="fas fa-file-signature"></i>
                 <h1>ResumeCraft</h1>
             </div>
-            <div class="header-actions">
-                <button class="btn btn-primary" onclick="window.print()">
-                    <i class="fas fa-download"></i> Download High-Quality PDF
-                </button>
+            
+            <div class="header-controls">
+                <!-- Color Picker & Actions -->
+                <div class="tools-group">
+                    <!-- Added ID for toggling visibility -->
+                    <div id="colorTool" class="color-picker-wrapper" title="Change Accent Color">
+                        <label for="accentColor"><i class="fas fa-palette"></i></label>
+                        <input type="color" id="accentColor" value="#4f46e5" onchange="updateAccentColor(this.value)">
+                    </div>
+                    <button class="btn" onclick="exportJSON()" title="Save Backup">
+                        <i class="fas fa-file-export"></i> Save
+                    </button>
+                    <button class="btn" onclick="document.getElementById('importFile').click()" title="Load Backup">
+                        <i class="fas fa-file-import"></i> Load
+                    </button>
+                    <input type="file" id="importFile" style="display: none" accept=".json" onchange="importJSON(this)">
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="window.print()">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                </div>
             </div>
         </header>
 
@@ -551,14 +728,31 @@
                         <div class="template-card" onclick="setTemplate('sidebar')">
                             <div class="template-name">Sidebar</div>
                         </div>
+                        <!-- NEW TEMPLATE -->
+                        <div class="template-card" onclick="setTemplate('timeline')">
+                            <div class="template-name">Timeline</div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="editor-content">
-                    <form id="resumeForm" oninput="updatePreview()">
+                    <form id="resumeForm" oninput="handleInput()">
                         
                         <!-- Personal Info -->
                         <div class="section-title"><i class="fas fa-user"></i> Personal Details</div>
+                        
+                        <!-- Photo Upload -->
+                        <div class="form-group">
+                            <div class="photo-upload-container" onclick="document.getElementById('profilePhoto').click()">
+                                <img id="photoPreview" class="photo-preview-mini" src="" alt="Profile">
+                                <div class="photo-label" id="photoLabel">
+                                    <i class="fas fa-camera"></i> Upload Photo
+                                </div>
+                                <input type="file" id="profilePhoto" class="photo-input" accept="image/*" onchange="handlePhotoUpload(this)">
+                            </div>
+                            <button type="button" id="removePhotoBtn" class="remove-photo-btn" onclick="removePhoto()">Remove Photo</button>
+                        </div>
+
                         <div class="form-group">
                             <label>Full Name</label>
                             <input type="text" class="form-input" id="fullName" placeholder="e.g. John Doe">
@@ -591,78 +785,326 @@
                         <!-- Summary -->
                         <div class="section-title"><i class="fas fa-paragraph"></i> Professional Summary</div>
                         <div class="form-group">
-                            <textarea class="form-textarea" id="summary" placeholder="e.g. Innovative Product Designer with 7+ years of experience in building user-centric digital products..."></textarea>
+                            <textarea class="form-textarea" id="summary" placeholder="e.g. Innovative Product Designer with 7+ years of experience..."></textarea>
                         </div>
 
                         <!-- Experience -->
                         <div class="section-title"><i class="fas fa-briefcase"></i> Experience</div>
-                        <div id="experience-list" class="dynamic-list">
-                            <!-- Items added via JS -->
-                        </div>
+                        <div id="experience-list" class="dynamic-list"></div>
                         <button type="button" class="add-btn" onclick="addExperience()"><i class="fas fa-plus"></i> Add Job</button>
 
                         <!-- Education -->
                         <div class="section-title"><i class="fas fa-graduation-cap"></i> Education</div>
-                        <div id="education-list" class="dynamic-list">
-                            <!-- Items added via JS -->
-                        </div>
+                        <div id="education-list" class="dynamic-list"></div>
                         <button type="button" class="add-btn" onclick="addEducation()"><i class="fas fa-plus"></i> Add Education</button>
 
                         <!-- Skills -->
                         <div class="section-title"><i class="fas fa-tools"></i> Skills</div>
                         <div class="form-group">
                             <label>Skills (comma separated)</label>
-                            <textarea class="form-textarea" id="skills" style="min-height: 80px;" placeholder="e.g. UI/UX Design, Figma, HTML/CSS, React..."></textarea>
+                            <textarea class="form-textarea" id="skills" style="min-height: 80px;" placeholder="e.g. UI/UX Design, Figma, HTML/CSS..."></textarea>
                         </div>
 
                     </form>
                     
-                    <div style="height: 50px;"></div> <!-- Spacer -->
+                    <div style="height: 50px;"></div>
                 </div>
             </div>
 
             <!-- Preview -->
             <div class="preview-panel">
-                <div id="preview-page" class="a4-page">
-                    <!-- Content injected here -->
-                </div>
+                <div id="preview-page" class="a4-page"></div>
             </div>
         </div>
+
+        <!-- Mobile Toggle Button -->
+        <button class="mobile-toggle" onclick="toggleMobileView()" title="Toggle Preview">
+            <i class="fas fa-eye"></i>
+        </button>
     </div>
 
     <script>
-        // State
+        // --- State Management ---
         let currentTemplate = 'classic';
-        const form = document.getElementById('resumeForm');
+        let currentUserPhoto = null; // Stores Base64 string
+        let isPreviewMode = false;
 
-        // Initial Data for Demo (removed actual data, keeping structure for reference if needed)
-        // We now start fresh.
-
-        // --- Logic ---
-
+        // --- Initialization ---
         function init() {
-            // Create one empty slot for experience and education by default
-            addExperience();
-            addEducation();
+            // Check for saved data in localStorage
+            const savedData = localStorage.getItem('resumeData');
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+                    populateForm(data);
+                } catch (e) {
+                    console.error("Error loading saved data", e);
+                    // Fallback to default
+                    addExperience();
+                    addEducation();
+                }
+            } else {
+                // Default empty state
+                addExperience();
+                addEducation();
+            }
+            // Trigger visibility check for color picker based on template
+            toggleColorPickerVisibility(currentTemplate);
             updatePreview();
         }
 
+        // --- Auto-Save & Data Handling ---
+        function handleInput() {
+            saveData();
+            updatePreview();
+        }
+
+        function saveData() {
+            const data = getFormData();
+            localStorage.setItem('resumeData', JSON.stringify(data));
+        }
+
+        function getFormData() {
+            return {
+                template: currentTemplate,
+                accentColor: document.getElementById('accentColor').value,
+                photo: currentUserPhoto,
+                personal: {
+                    fullName: document.getElementById('fullName').value,
+                    jobTitle: document.getElementById('jobTitle').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    linkedin: document.getElementById('linkedin').value,
+                    website: document.getElementById('website').value,
+                    location: document.getElementById('location').value,
+                },
+                summary: document.getElementById('summary').value,
+                experience: getExperienceData(),
+                education: getEducationData(),
+                skills: document.getElementById('skills').value
+            };
+        }
+
+        function populateForm(data) {
+            // Restore Template
+            if(data.template) setTemplate(data.template);
+            
+            // Restore Color
+            if(data.accentColor) {
+                document.getElementById('accentColor').value = data.accentColor;
+                updateAccentColor(data.accentColor);
+            }
+
+            // Restore Photo
+            if(data.photo) {
+                currentUserPhoto = data.photo;
+                const img = document.getElementById('photoPreview');
+                const label = document.getElementById('photoLabel');
+                const removeBtn = document.getElementById('removePhotoBtn');
+                img.src = data.photo;
+                img.style.display = 'block';
+                label.style.display = 'none';
+                removeBtn.style.display = 'inline-block';
+            }
+
+            // Restore Personal Info
+            if(data.personal) {
+                document.getElementById('fullName').value = data.personal.fullName || '';
+                document.getElementById('jobTitle').value = data.personal.jobTitle || '';
+                document.getElementById('email').value = data.personal.email || '';
+                document.getElementById('phone').value = data.personal.phone || '';
+                document.getElementById('linkedin').value = data.personal.linkedin || '';
+                document.getElementById('website').value = data.personal.website || '';
+                document.getElementById('location').value = data.personal.location || '';
+            }
+
+            document.getElementById('summary').value = data.summary || '';
+            document.getElementById('skills').value = data.skills || '';
+
+            // Restore Dynamic Lists
+            const expList = document.getElementById('experience-list');
+            expList.innerHTML = '';
+            if(data.experience && data.experience.length > 0) {
+                data.experience.forEach(item => addExperience(item));
+            } else {
+                addExperience();
+            }
+
+            const eduList = document.getElementById('education-list');
+            eduList.innerHTML = '';
+            if(data.education && data.education.length > 0) {
+                data.education.forEach(item => addEducation(item));
+            } else {
+                addEducation();
+            }
+        }
+
+        // --- Export / Import JSON ---
+        function exportJSON() {
+            const data = getFormData();
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "resume_backup.json");
+            document.body.appendChild(downloadAnchorNode); // required for firefox
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        function importJSON(input) {
+            const file = input.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    populateForm(data);
+                    saveData(); // Save imported data to local storage
+                    updatePreview();
+                    alert('Resume loaded successfully!');
+                } catch(err) {
+                    alert('Error reading file. Please make sure it is a valid JSON backup.');
+                }
+            };
+            reader.readAsText(file);
+            input.value = ''; // Reset input
+        }
+
+        // --- Template & Color ---
         function setTemplate(tplName) {
             currentTemplate = tplName;
-            // Update UI
             document.querySelectorAll('.template-card').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.template-card').forEach(el => {
                 if(el.getAttribute('onclick').includes(tplName)) el.classList.add('active');
             });
-            updatePreview();
+            toggleColorPickerVisibility(tplName);
+            handleInput(); // Save state
+        }
+        
+        function toggleColorPickerVisibility(tplName) {
+            const picker = document.getElementById('colorTool');
+            // Show picker for Modern OR Timeline, hide for others
+            if (tplName === 'modern' || tplName === 'timeline') {
+                picker.style.display = 'flex';
+            } else {
+                picker.style.display = 'none';
+            }
         }
 
-        function cleanLink(url, type) {
-            if (!url) return '';
-            // Return a clean display text like "LinkedIn" or "Portfolio"
-            if (type === 'linkedin') return 'LinkedIn';
-            if (type === 'website') return 'Portfolio';
-            return 'Link';
+        function updateAccentColor(color) {
+            document.documentElement.style.setProperty('--primary', color);
+            // Darken slightly for hover effects
+            // Simple logic: if hex, just use the same for now or leave default logic
+            handleInput(); // Save state
+        }
+
+        // --- Photo Handling ---
+        function handlePhotoUpload(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentUserPhoto = e.target.result;
+                    
+                    // UI Update
+                    const img = document.getElementById('photoPreview');
+                    const label = document.getElementById('photoLabel');
+                    const removeBtn = document.getElementById('removePhotoBtn');
+                    
+                    img.src = currentUserPhoto;
+                    img.style.display = 'block';
+                    label.style.display = 'none';
+                    removeBtn.style.display = 'inline-block';
+                    
+                    handleInput(); // Save & Preview
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removePhoto() {
+            currentUserPhoto = null;
+            document.getElementById('profilePhoto').value = '';
+            
+            const img = document.getElementById('photoPreview');
+            const label = document.getElementById('photoLabel');
+            const removeBtn = document.getElementById('removePhotoBtn');
+            
+            img.style.display = 'none';
+            img.src = '';
+            label.style.display = 'block';
+            removeBtn.style.display = 'none';
+            
+            handleInput();
+        }
+
+        // --- Dynamic Lists (With Reordering) ---
+        function moveUp(btn) {
+            const item = btn.closest('.dynamic-item');
+            if (item.previousElementSibling) {
+                item.parentNode.insertBefore(item, item.previousElementSibling);
+                handleInput();
+            }
+        }
+
+        function moveDown(btn) {
+            const item = btn.closest('.dynamic-item');
+            if (item.nextElementSibling) {
+                item.parentNode.insertBefore(item.nextElementSibling, item);
+                handleInput();
+            }
+        }
+
+        function addExperience(data = {}) {
+            const list = document.getElementById('experience-list');
+            const div = document.createElement('div');
+            div.className = 'dynamic-item';
+            div.innerHTML = `
+                <div class="item-actions">
+                    <button type="button" class="action-btn" onclick="moveUp(this)" title="Move Up"><i class="fas fa-arrow-up"></i></button>
+                    <button type="button" class="action-btn" onclick="moveDown(this)" title="Move Down"><i class="fas fa-arrow-down"></i></button>
+                    <button type="button" class="action-btn btn-delete" onclick="this.closest('.dynamic-item').remove(); handleInput()" title="Delete"><i class="fas fa-trash"></i></button>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-input inp-role" placeholder="Job Title" value="${data.role || ''}" oninput="handleInput()">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-input inp-company" placeholder="Company" value="${data.company || ''}" oninput="handleInput()">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-input inp-date" placeholder="Date (e.g. 2020 - Present)" value="${data.date || ''}" oninput="handleInput()">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-textarea inp-desc" placeholder="Key Achievements..." oninput="handleInput()">${data.desc || ''}</textarea>
+                </div>
+            `;
+            list.appendChild(div);
+        }
+
+        function addEducation(data = {}) {
+            const list = document.getElementById('education-list');
+            const div = document.createElement('div');
+            div.className = 'dynamic-item';
+            div.innerHTML = `
+                <div class="item-actions">
+                    <button type="button" class="action-btn" onclick="moveUp(this)" title="Move Up"><i class="fas fa-arrow-up"></i></button>
+                    <button type="button" class="action-btn" onclick="moveDown(this)" title="Move Down"><i class="fas fa-arrow-down"></i></button>
+                    <button type="button" class="action-btn btn-delete" onclick="this.closest('.dynamic-item').remove(); handleInput()" title="Delete"><i class="fas fa-trash"></i></button>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-input inp-degree" placeholder="Degree" value="${data.degree || ''}" oninput="handleInput()">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-input inp-school" placeholder="School/University" value="${data.school || ''}" oninput="handleInput()">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-input inp-date" placeholder="Year" value="${data.date || ''}" oninput="handleInput()">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-textarea inp-desc" placeholder="Description (Optional)" oninput="handleInput()">${data.desc || ''}</textarea>
+                </div>
+            `;
+            list.appendChild(div);
         }
 
         function getExperienceData() {
@@ -691,8 +1133,15 @@
             return items;
         }
 
+        // --- Render Logic ---
+        function cleanLink(url, type) {
+            if (!url) return '';
+            if (type === 'linkedin') return 'LinkedIn';
+            if (type === 'website') return 'Portfolio';
+            return 'Link';
+        }
+
         function renderTemplate() {
-            // Get values or use placeholders for preview
             const name = document.getElementById('fullName').value || 'Your Name';
             const title = document.getElementById('jobTitle').value || 'Professional Title';
             const email = document.getElementById('email').value || 'email@example.com';
@@ -700,32 +1149,24 @@
             const location = document.getElementById('location').value || 'City, Country';
             const linkedin = document.getElementById('linkedin').value;
             const website = document.getElementById('website').value;
-            const summary = document.getElementById('summary').value || 'Your professional summary will appear here. Add a brief overview of your background and key strengths.';
+            const summary = document.getElementById('summary').value || 'Your professional summary will appear here.';
             
-            // Skills: if empty, show placeholder skills
             let skillsStr = document.getElementById('skills').value;
-            let skills = [];
-            if(skillsStr) {
-                skills = skillsStr.split(',').map(s => s.trim()).filter(s => s);
-            } else {
-                skills = ['Skill 1', 'Skill 2', 'Skill 3'];
-            }
+            let skills = skillsStr ? skillsStr.split(',').map(s => s.trim()).filter(s => s) : ['Skill 1', 'Skill 2', 'Skill 3'];
 
             const experience = getExperienceData();
             const education = getEducationData();
 
             const page = document.getElementById('preview-page');
             
-            // Generate Contact HTML
+            // Build Components
             let contactsHtml = '';
-            contactsHtml += `<div class="r-contact-link"><i class="fas fa-envelope"></i> ${email}</div>`;
-            contactsHtml += `<div class="r-contact-link"><i class="fas fa-phone"></i> ${phone}</div>`;
-            contactsHtml += `<div class="r-contact-link"><i class="fas fa-map-marker-alt"></i> ${location}</div>`;
-            
+            if(email) contactsHtml += `<div class="r-contact-link"><i class="fas fa-envelope"></i> ${email}</div>`;
+            if(phone) contactsHtml += `<div class="r-contact-link"><i class="fas fa-phone"></i> ${phone}</div>`;
+            if(location) contactsHtml += `<div class="r-contact-link"><i class="fas fa-map-marker-alt"></i> ${location}</div>`;
             if(linkedin) contactsHtml += `<a href="${linkedin}" target="_blank" class="r-contact-link"><i class="fab fa-linkedin"></i> ${cleanLink(linkedin, 'linkedin')}</a>`;
             if(website) contactsHtml += `<a href="${website}" target="_blank" class="r-contact-link"><i class="fas fa-globe"></i> ${cleanLink(website, 'website')}</a>`;
 
-            // Common HTML Blocks
             const skillsHtml = skills.map(s => `<span class="r-skill-tag">${s}</span>`).join('');
             
             const experienceHtml = experience.map(exp => `
@@ -744,12 +1185,17 @@
                 </div>
             `).join('');
 
-            // --- RENDER BASED ON TEMPLATE ---
-            
+            // Photo HTML
+            const photoHtml = currentUserPhoto 
+                ? `<div class="r-photo-container"><img src="${currentUserPhoto}" class="r-photo" /></div>` 
+                : '';
+
+            // --- Layout Rendering ---
             if (currentTemplate === 'sidebar') {
                 page.innerHTML = `
                     <div class="resume-content tpl-sidebar">
                         <div class="sidebar-left">
+                            ${photoHtml}
                             <div class="r-name">${name}</div>
                             <div class="r-role">${title}</div>
                             <div style="margin: 20px 0; border-bottom: 1px solid #cbd5e1;"></div>
@@ -782,15 +1228,82 @@
                         </div>
                     </div>
                 `;
-            } 
-            else {
-                // Standard Layouts (Classic, Modern, Executive, Minimalist)
+            } else if (currentTemplate === 'timeline') {
+                // New Timeline Template Layout
                 page.innerHTML = `
-                    <div class="resume-content tpl-${currentTemplate}">
+                    <div class="resume-content tpl-timeline">
                         <div class="r-header">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div>
+                                    <div class="r-name">${name}</div>
+                                    <div class="r-role">${title}</div>
+                                    <div class="r-contacts" style="margin-top: 10px;">${contactsHtml}</div>
+                                </div>
+                                ${photoHtml}
+                            </div>
+                        </div>
+
+                        <div class="r-section">
+                            <div class="r-section-title"><i class="fas fa-user-circle" style="margin-right: 8px;"></i> Profile</div>
+                            <div>${summary}</div>
+                        </div>
+
+                        <div class="r-section">
+                            <div class="r-section-title"><i class="fas fa-briefcase" style="margin-right: 8px;"></i> Experience</div>
+                            ${experienceHtml}
+                        </div>
+
+                        <div class="r-section">
+                            <div class="r-section-title"><i class="fas fa-graduation-cap" style="margin-right: 8px;"></i> Education</div>
+                            ${educationHtml}
+                        </div>
+
+                        <div class="r-section">
+                            <div class="r-section-title"><i class="fas fa-tools" style="margin-right: 8px;"></i> Skills</div>
+                            <div class="r-skills">${skillsHtml}</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Standard Layouts (Classic, Modern, Executive, Minimalist)
+                // Determine header layout (photo left or right?)
+                // Default: Photo Right
+                let headerContent = `
+                    <div class="r-header-text">
+                        <div class="r-name">${name}</div>
+                        <div class="r-role">${title}</div>
+                        <div class="r-contacts">${contactsHtml}</div>
+                    </div>
+                    ${photoHtml}
+                `;
+
+                // Executive & Minimalist handle header differently in CSS
+                if (currentTemplate === 'executive') {
+                    // Photo on left often looks better for Exec
+                    headerContent = `
+                        ${photoHtml}
+                        <div class="r-header-text" style="padding-left: 20px;">
                             <div class="r-name">${name}</div>
                             <div class="r-role">${title}</div>
                             <div class="r-contacts">${contactsHtml}</div>
+                        </div>
+                    `;
+                }
+
+                if (currentTemplate === 'minimalist' || currentTemplate === 'classic') {
+                    // Centered stack
+                    headerContent = `
+                        ${photoHtml}
+                        <div class="r-name">${name}</div>
+                        <div class="r-role">${title}</div>
+                        <div class="r-contacts">${contactsHtml}</div>
+                    `;
+                }
+
+                page.innerHTML = `
+                    <div class="resume-content tpl-${currentTemplate}">
+                        <div class="r-header">
+                            ${headerContent}
                         </div>
 
                         <div class="r-section">
@@ -821,52 +1334,15 @@
             renderTemplate();
         }
 
-        // --- Dynamic Form Handlers ---
-
-        function addExperience(data = {}) {
-            const list = document.getElementById('experience-list');
-            const div = document.createElement('div');
-            div.className = 'dynamic-item';
-            div.innerHTML = `
-                <button type="button" class="remove-btn" onclick="this.parentElement.remove(); updatePreview()"><i class="fas fa-times"></i></button>
-                <div class="form-group">
-                    <input type="text" class="form-input inp-role" placeholder="Job Title" value="${data.role || ''}" oninput="updatePreview()">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-input inp-company" placeholder="Company" value="${data.company || ''}" oninput="updatePreview()">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-input inp-date" placeholder="Date (e.g. 2020 - Present)" value="${data.date || ''}" oninput="updatePreview()">
-                </div>
-                <div class="form-group">
-                    <textarea class="form-textarea inp-desc" placeholder="Key Achievements..." oninput="updatePreview()">${data.desc || ''}</textarea>
-                </div>
-            `;
-            list.appendChild(div);
-            updatePreview();
-        }
-
-        function addEducation(data = {}) {
-            const list = document.getElementById('education-list');
-            const div = document.createElement('div');
-            div.className = 'dynamic-item';
-            div.innerHTML = `
-                <button type="button" class="remove-btn" onclick="this.parentElement.remove(); updatePreview()"><i class="fas fa-times"></i></button>
-                <div class="form-group">
-                    <input type="text" class="form-input inp-degree" placeholder="Degree" value="${data.degree || ''}" oninput="updatePreview()">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-input inp-school" placeholder="School/University" value="${data.school || ''}" oninput="updatePreview()">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-input inp-date" placeholder="Year" value="${data.date || ''}" oninput="updatePreview()">
-                </div>
-                <div class="form-group">
-                    <textarea class="form-textarea inp-desc" placeholder="Description (Optional)" oninput="updatePreview()">${data.desc || ''}</textarea>
-                </div>
-            `;
-            list.appendChild(div);
-            updatePreview();
+        // --- Mobile Toggle ---
+        function toggleMobileView() {
+            document.body.classList.toggle('show-preview');
+            const icon = document.querySelector('.mobile-toggle i');
+            if (document.body.classList.contains('show-preview')) {
+                icon.className = 'fas fa-pen'; // Show 'Edit' icon
+            } else {
+                icon.className = 'fas fa-eye'; // Show 'Preview' icon
+            }
         }
 
         // Initialize
