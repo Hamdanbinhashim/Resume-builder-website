@@ -8,6 +8,7 @@ It features a split-screen interface with a real-time editor and live preview, o
 Key Features
 
 🎨 Customization & Design
+
 Dual Modes: Switch between Professional (Corporate focus) and Student (Creative/Academic focus) modes.
 
 Template Library: Includes 12 unique templates (6 Professional, 6 Student) ranging from "Classic" and "Executive" to "Vibrant" and "Futuristic."
@@ -18,6 +19,7 @@ Theme Engine: Dynamic color picker to customize the resume's accent color global
 
 
 📝 Content Management
+
 Real-Time Editing: Updates appear instantly in the A4 preview panel as you type.
 
 Dynamic Sections: Easily add, remove, and reorder items within Experience, Education, and Projects.
@@ -30,6 +32,7 @@ Photo Management: Upload, preview, and remove profile photos directly from the e
 
 
 💾 Data & Portability
+
 Auto-Save: Progress is automatically saved to the browser's LocalStorage, so data isn't lost on refresh.
 
 JSON Import/Export: Save your resume data as a .json file to backup or transfer to another device.
@@ -38,6 +41,7 @@ PDF Export: Built-in "Download PDF" functionality utilizing the browser's native
 
 
 📱 Technical & UI
+
 Responsive Design: Fully functional on desktop and mobile devices.
 
 Mobile View: Dedicated toggle button to switch between Editor and Preview modes on smaller screens.
