@@ -6,7 +6,7 @@
     <title>ResumeCraft | Premium Resume Builder</title>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;700&family=Roboto+Mono:wght@400;500&family=Oswald:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,6 +22,9 @@
             --text-main: #1f2937;
             --text-muted: #6b7280;
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
+            /* Dynamic Font Variable */
+            --font-body: 'Inter', sans-serif; 
         }
 
         * {
@@ -31,12 +34,14 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-body);
             background: var(--bg-gradient);
             color: var(--text-main);
             min-height: 100vh;
             padding: 20px;
         }
+
+        .hidden { display: none !important; }
 
         /* --- Layout & Container --- */
         .app-container {
@@ -82,6 +87,7 @@
             background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            font-family: 'Inter', sans-serif; 
         }
 
         .header-controls {
@@ -95,11 +101,25 @@
         .tools-group {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
             padding-right: 15px;
             border-right: 1px solid #e5e7eb;
             margin-right: 15px;
         }
+
+        .tool-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            background-color: white;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .tool-select:hover { border-color: var(--primary); }
+        .tool-select:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1); }
 
         .color-picker-wrapper {
             display: flex;
@@ -108,8 +128,7 @@
             font-size: 0.85rem;
             font-weight: 500;
             color: var(--text-muted);
-            /* Hidden by default, toggled via JS */
-            display: none; 
+            display: none; /* Toggled via JS */
         }
 
         input[type="color"] {
@@ -144,6 +163,8 @@
 
         .btn:hover { background: #f9fafb; border-color: #9ca3af; }
 
+        .btn-danger:hover { background-color: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+
         .btn-primary {
             background: var(--primary);
             color: white;
@@ -175,8 +196,13 @@
             transition: transform 0.3s ease;
         }
 
-        .editor-content {
-            padding: 2rem;
+        .editor-content { padding: 2rem; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 1.5rem 0 1rem;
         }
 
         .section-title {
@@ -185,10 +211,10 @@
             letter-spacing: 0.05em;
             color: var(--text-muted);
             font-weight: 600;
-            margin: 1.5rem 0 1rem;
             display: flex;
             align-items: center;
             gap: 8px;
+            flex: 1;
         }
         
         .section-title::after {
@@ -198,9 +224,24 @@
             background: #e5e7eb;
         }
 
-        .form-group {
-            margin-bottom: 1rem;
+        .section-reorder-controls {
+            display: flex;
+            gap: 4px;
+            margin-left: 10px;
         }
+
+        .reorder-btn {
+            background: none;
+            border: 1px solid #d1d5db;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+        .reorder-btn:hover { background: #e5e7eb; color: var(--primary); }
+
+        .form-group { margin-bottom: 1rem; }
 
         .form-group label {
             display: block;
@@ -227,9 +268,52 @@
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
 
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
+        .form-textarea { resize: vertical; min-height: 100px; }
+
+        /* Rich Text Toolbar */
+        .rich-text-toolbar {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+        .rt-btn {
+            background: #e5e7eb;
+            border: none;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #374151;
+        }
+        .rt-btn:hover { background: #d1d5db; }
+
+        /* Toggle Switches */
+        .section-toggles {
+            display: flex;
+            gap: 20px;
+            background: white;
+            padding: 12px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-main);
+            margin: 0 !important;
+        }
+        .toggle-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--primary);
         }
 
         /* Image Upload Styles */
@@ -243,9 +327,7 @@
             background: white;
             position: relative;
         }
-        
         .photo-upload-container:hover { border-color: var(--primary); background: #f5f3ff; }
-        
         .photo-preview-mini {
             width: 60px;
             height: 60px;
@@ -255,14 +337,8 @@
             display: none;
             border: 2px solid var(--primary);
         }
-        
         .photo-label { font-size: 0.85rem; color: var(--text-muted); }
-        .photo-input { 
-            position: absolute; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%; 
-            opacity: 0; cursor: pointer; 
-        }
+        .photo-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         .remove-photo-btn {
             display: none;
             margin-top: 5px;
@@ -274,13 +350,8 @@
             text-decoration: underline;
         }
 
-        /* Dynamic Lists (Experience, etc) */
-        .dynamic-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
+        /* Dynamic Lists */
+        .dynamic-list { display: flex; flex-direction: column; gap: 1rem; }
         .dynamic-item {
             background: white;
             border: 1px solid #e5e7eb;
@@ -289,17 +360,15 @@
             position: relative;
             transition: all 0.2s;
         }
-        
         .dynamic-item:hover { border-color: #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-
         .item-actions {
             position: absolute;
             top: 0.5rem;
             right: 0.5rem;
             display: flex;
             gap: 4px;
+            z-index: 2;
         }
-
         .action-btn {
             color: #6b7280;
             background: #f3f4f6;
@@ -310,7 +379,6 @@
             border-radius: 4px;
             transition: all 0.2s;
         }
-        
         .action-btn:hover { background: #e5e7eb; color: #1f2937; }
         .btn-delete:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; }
 
@@ -329,12 +397,7 @@
             align-items: center;
             gap: 6px;
         }
-
-        .add-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: #f5f3ff;
-        }
+        .add-btn:hover { border-color: var(--primary); color: var(--primary); background: #f5f3ff; }
 
         /* --- Template Selector --- */
         .template-selector {
@@ -345,13 +408,11 @@
             top: 0;
             z-index: 5;
         }
-
         .template-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
         }
-
         .template-card {
             border: 2px solid transparent;
             border-radius: 8px;
@@ -363,19 +424,9 @@
             text-align: center;
             transition: all 0.2s;
         }
-
-        .template-card.active {
-            border-color: var(--primary);
-            background: #eef2ff;
-        }
-        
+        .template-card.active { border-color: var(--primary); background: #eef2ff; }
         .template-card:hover { transform: translateY(-2px); }
-
-        .template-name {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-main);
-        }
+        .template-name { font-size: 0.8rem; font-weight: 600; color: var(--text-main); }
 
         /* --- Preview Panel --- */
         .preview-panel {
@@ -387,8 +438,6 @@
             justify-content: center;
             align-items: flex-start;
         }
-
-        /* A4 Paper Simulation */
         .a4-page {
             width: 210mm;
             min-height: 297mm;
@@ -396,7 +445,6 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.3);
             margin-bottom: 2rem;
             position: relative;
-            /* No padding here, padding is handled by template classes */
         }
 
         /* --- Mobile Toggle Button --- */
@@ -423,22 +471,16 @@
            TEMPLATE STYLES
            -------------------------------------------------------- */
         
-        /* Base Resume Styles */
         .resume-content {
             width: 100%;
-            min-height: 297mm; /* Force exact A4 height minimum */
+            min-height: 297mm;
             box-sizing: border-box;
             font-size: 11pt;
             line-height: 1.5;
             color: #333;
+            font-family: var(--font-body) !important;
         }
-
-        .resume-content a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* Helpers */
+        .resume-content a { text-decoration: none; color: inherit; }
         .r-section { margin-bottom: 20px; }
         .r-section-title { font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
         .r-item { margin-bottom: 12px; }
@@ -446,7 +488,6 @@
         .r-header-text { flex: 1; }
         .r-photo-container { width: 100px; height: 100px; margin-left: 20px; flex-shrink: 0; }
         .r-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-        
         .r-name { font-size: 24pt; font-weight: bold; line-height: 1.2; }
         .r-role { font-size: 14pt; margin-bottom: 8px; }
         .r-contacts { display: flex; flex-wrap: wrap; gap: 15px; font-size: 9pt; }
@@ -458,24 +499,28 @@
         .r-skills { display: flex; flex-wrap: wrap; gap: 8px; }
         .r-skill-tag { font-size: 0.9em; }
 
-        /* === 1. CLASSIC TEMPLATE === */
-        .tpl-classic { padding: 40px; font-family: 'Merriweather', serif; }
-        .tpl-classic .r-header { display: block; text-align: center; }
-        .tpl-classic .r-photo-container { margin: 0 auto 15px; width: 110px; height: 110px; }
+        /* === PROFESSIONAL TEMPLATES === */
+        /* 1. CLASSIC */
+        .tpl-classic { padding: 40px; font-family: var(--font-body); }
+        /* Changed to flex for left image */
+        .tpl-classic .r-header { display: flex; align-items: center; text-align: left; }
+        /* Margin on right of photo, remove auto margins */
+        .tpl-classic .r-photo-container { margin: 0 20px 0 0; width: 110px; height: 110px; flex-shrink: 0; }
         .tpl-classic .r-section-title { border-bottom: 1px solid #333; padding-bottom: 5px; font-size: 12pt; }
         .tpl-classic .r-role { color: #444; font-style: italic; }
-        .tpl-classic .r-contacts { justify-content: center; margin-top: 10px; }
+        /* Align contacts left */
+        .tpl-classic .r-contacts { justify-content: flex-start; margin-top: 10px; }
 
-        /* === 2. MODERN TEMPLATE === */
-        .tpl-modern { padding: 40px; font-family: 'Inter', sans-serif; }
+        /* 2. MODERN */
+        .tpl-modern { padding: 40px; font-family: var(--font-body); }
         .tpl-modern .r-name { color: var(--primary); }
         .tpl-modern .r-section-title { color: var(--primary); font-size: 10pt; letter-spacing: 1px; margin-bottom: 15px; }
         .tpl-modern .r-date { color: var(--primary); font-weight: 500; }
         .tpl-modern .r-skill-tag { background: #eff6ff; color: var(--primary-dark); padding: 4px 10px; border-radius: 4px; }
-        .tpl-modern .r-photo { border-radius: 12px; } /* Square-ish for modern */
+        .tpl-modern .r-photo { border-radius: 12px; }
 
-        /* === 3. EXECUTIVE TEMPLATE === */
-        .tpl-executive { font-family: 'Inter', sans-serif; }
+        /* 3. EXECUTIVE */
+        .tpl-executive { font-family: var(--font-body); }
         .tpl-executive .r-header { background: #1f2937; color: white; padding: 40px; margin-bottom: 30px; display: flex; align-items: center; }
         .tpl-executive .r-photo-container { border: 3px solid white; border-radius: 50%; width: 120px; height: 120px; }
         .tpl-executive .r-section { padding: 0 40px; }
@@ -484,34 +529,32 @@
         .tpl-executive .r-contact-link { color: #d1d5db; }
         .tpl-executive .r-section-title { border-left: 4px solid #1f2937; padding-left: 10px; font-size: 14pt; background: #f3f4f6; padding: 5px 10px; }
 
-        /* === 4. MINIMALIST TEMPLATE === */
-        .tpl-minimalist { padding: 50px; font-family: 'Inter', sans-serif; text-align: center; }
-        .tpl-minimalist .r-header { border-bottom: none; margin-bottom: 40px; display: block; }
-        .tpl-minimalist .r-photo-container { margin: 0 auto 20px; width: 100px; height: 100px; }
+        /* 4. MINIMALIST (Restructured) */
+        .tpl-minimalist { padding: 50px; font-family: var(--font-body); text-align: left; }
+        .tpl-minimalist .r-header { 
+            border-bottom: none; 
+            margin-bottom: 40px; 
+            display: flex; /* Changed from block to flex */
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .tpl-minimalist .r-header-text { flex: 1; }
+        .tpl-minimalist .r-photo-container { 
+            margin: 0 0 0 30px; /* Margin on left to separate from text */
+            width: 100px; 
+            height: 100px; 
+            flex-shrink: 0;
+        }
         .tpl-minimalist .r-name { font-weight: 300; font-size: 32pt; letter-spacing: -1px; }
-        .tpl-minimalist .r-section-title { text-align: center; font-size: 9pt; letter-spacing: 3px; color: #999; margin-bottom: 20px; }
-        .tpl-minimalist .r-item { text-align: left; max-width: 600px; margin: 0 auto 20px; }
+        .tpl-minimalist .r-section-title { text-align: left; font-size: 9pt; letter-spacing: 3px; color: #999; margin-bottom: 20px; } /* Align left */
+        .tpl-minimalist .r-item { text-align: left; max-width: 600px; margin: 0 0 20px 0; }
         .tpl-minimalist .r-date { float: none; display: block; margin-bottom: 4px; font-size: 0.85em; }
-        .tpl-minimalist .r-skills { justify-content: center; }
-        .tpl-minimalist .r-contacts { justify-content: center; }
+        .tpl-minimalist .r-skills { justify-content: flex-start; }
+        .tpl-minimalist .r-contacts { justify-content: flex-start; }
 
-        /* === 5. SIDEBAR TEMPLATE === */
-        .tpl-sidebar { 
-            display: flex; 
-            min-height: 100%; 
-            font-family: 'Inter', sans-serif; 
-            /* Linear Gradient to ensure background extends to bottom */
-            background: linear-gradient(to right, #f1f5f9 32%, #ffffff 32%);
-        }
-        .sidebar-left { 
-            width: 32%; 
-            background: transparent; 
-            padding: 30px; 
-            color: #334155; 
-            min-height: 297mm; 
-            display: flex; 
-            flex-direction: column; 
-        }
+        /* 5. SIDEBAR */
+        .tpl-sidebar { display: flex; min-height: 100%; font-family: var(--font-body); background: linear-gradient(to right, #f1f5f9 32%, #ffffff 32%); }
+        .sidebar-left { width: 32%; background: transparent; padding: 30px; color: #334155; min-height: 297mm; display: flex; flex-direction: column; }
         .sidebar-right { width: 68%; padding: 40px; }
         .tpl-sidebar .r-photo-container { width: 140px; height: 140px; margin: 0 auto 20px; border: 4px solid white; border-radius: 50%; overflow: hidden; }
         .tpl-sidebar .r-photo { width: 100%; height: 100%; }
@@ -522,60 +565,191 @@
         .tpl-sidebar .section-label { font-weight: bold; text-transform: uppercase; font-size: 0.8em; margin-bottom: 10px; color: #64748b; letter-spacing: 1px; }
         .tpl-sidebar .r-section-title { color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
 
-        /* === 6. TIMELINE TEMPLATE === */
-        .tpl-timeline { padding: 40px; font-family: 'Inter', sans-serif; }
+        /* 6. TIMELINE */
+        .tpl-timeline { padding: 40px; font-family: var(--font-body); }
         .tpl-timeline .r-header { border-bottom: 2px solid var(--border-color); padding-bottom: 20px; margin-bottom: 30px; }
         .tpl-timeline .r-name { color: var(--text-main); text-transform: uppercase; letter-spacing: 2px; }
         .tpl-timeline .r-role { color: var(--primary); font-weight: 500; }
-        .tpl-timeline .r-section-title { 
-            color: var(--primary); 
-            font-size: 11pt; 
-            font-weight: 700; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            margin-bottom: 20px;
+        .tpl-timeline .r-section-title { color: var(--primary); font-size: 11pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .tpl-timeline .r-section-title::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; }
+        .tpl-timeline .r-item { border-left: 2px solid #e5e7eb; padding-left: 20px; padding-bottom: 20px; margin-left: 5px; position: relative; }
+        .tpl-timeline .r-item::before { content: ''; position: absolute; left: -6px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--primary); border: 2px solid white; box-shadow: 0 0 0 1px var(--primary); }
+        .tpl-timeline .r-photo { border-radius: 8px; }
+
+        /* === STUDENT TEMPLATES === */
+        /* 7. VIBRANT */
+        .tpl-vibrant { padding: 40px; font-family: 'Lato', sans-serif; }
+        .tpl-vibrant .r-header { 
+            background: var(--primary); 
+            color: white; 
+            padding: 30px; 
+            border-radius: 16px; 
+            margin-bottom: 30px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+            /* Changed to flex row-reverse for left image */
+            display: flex; 
+            align-items: center; 
+            text-align: left;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            gap: 30px;
+        }
+        .tpl-vibrant .r-name { font-size: 32pt; margin-bottom: 5px; }
+        .tpl-vibrant .r-role { opacity: 0.9; font-size: 14pt; }
+        /* Align contacts left */
+        .tpl-vibrant .r-contacts { justify-content: flex-start; margin-top: 15px; }
+        .tpl-vibrant .r-contacts .r-contact-link { color: white; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; }
+        .tpl-vibrant .r-section-title { color: var(--primary); font-size: 14pt; border-bottom: 3px solid #eee; padding-bottom: 5px; margin-bottom: 20px; }
+        .tpl-vibrant .r-skill-tag { background: var(--primary); color: white; padding: 6px 14px; border-radius: 20px; }
+        /* Reset margins for photo and move up slightly */
+        .tpl-vibrant .r-photo { border: 4px solid rgba(255,255,255,0.5); width: 120px; height: 120px; margin: 0; }
+        .tpl-vibrant .r-photo-container { margin-top: -15px; }
+
+        /* 8. FUTURISTIC */
+        .tpl-futuristic { padding: 40px; font-family: 'Roboto Mono', monospace; background: #f8fafc; }
+        .tpl-futuristic .r-header { border-bottom: 2px dashed #0f172a; padding-bottom: 20px; margin-bottom: 40px; }
+        .tpl-futuristic .r-name { color: #0f172a; text-transform: uppercase; letter-spacing: -1px; font-weight: 700; }
+        .tpl-futuristic .r-role { color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .tpl-futuristic .r-section-title { background: #0f172a; color: white; padding: 5px 10px; display: inline-block; font-size: 10pt; letter-spacing: 1px; margin-bottom: 20px; }
+        .tpl-futuristic .r-subtitle { font-weight: 700; color: #0f172a; }
+        .tpl-futuristic .r-skill-tag { border: 1px solid #0f172a; color: #0f172a; padding: 2px 8px; font-size: 0.8em; }
+        .tpl-futuristic .r-photo { border-radius: 0; filter: grayscale(100%); }
+
+        /* 9. CLASSY */
+        .tpl-classy { padding: 60px 50px; font-family: 'Playfair Display', serif; text-align: center; border: 10px solid #f3f4f6; height: 100%; box-sizing: border-box; }
+        .tpl-classy .r-header { display: block; border-bottom: 1px solid #ddd; padding-bottom: 30px; margin-bottom: 30px; }
+        .tpl-classy .r-name { font-style: italic; font-size: 36pt; color: #111; }
+        .tpl-classy .r-role { font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 2px; font-size: 10pt; color: #666; margin-top: 10px; }
+        .tpl-classy .r-contacts { justify-content: center; font-family: 'Inter', sans-serif; margin-top: 20px; }
+        .tpl-classy .r-section-title { font-style: italic; font-size: 16pt; color: var(--primary); margin-bottom: 20px; text-transform: none; position: relative; display: inline-block; }
+        .tpl-classy .r-section-title::after { content: ''; display: block; width: 40%; height: 2px; background: var(--primary); margin: 5px auto 0; }
+        .tpl-classy .r-item { text-align: left; margin-bottom: 20px; }
+        .tpl-classy .r-subtitle { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1.1em; }
+        .tpl-classy .r-date, .tpl-classy .r-subline { font-family: 'Inter', sans-serif; }
+        .tpl-classy .r-skills { justify-content: center; }
+        
+        /* 10. CREATIVE */
+        .tpl-creative { padding: 0; font-family: 'Oswald', sans-serif; display: flex; min-height: 100%; }
+        .tpl-creative .r-left-col { width: 35%; background: #1e293b; color: white; padding: 40px; display: flex; flex-direction: column; }
+        .tpl-creative .r-right-col { width: 65%; padding: 40px; background: white; }
+        .tpl-creative .r-photo-container { width: 150px; height: 150px; margin: 0 auto 30px; border-radius: 50%; overflow: hidden; border: 5px solid rgba(255,255,255,0.1); }
+        .tpl-creative .r-photo { width: 100%; height: 100%; object-fit: cover; }
+        /* Creative Name Color Fix */
+        .tpl-creative .r-name { font-size: 28pt; line-height: 1; margin-bottom: 10px; color: #1e293b; text-align: right; }
+        .tpl-creative .r-role { text-align: right; color: var(--primary); font-family: 'Inter', sans-serif; letter-spacing: 1px; text-transform: uppercase; font-size: 10pt; }
+        .tpl-creative .left-section { margin-top: 40px; }
+        .tpl-creative .sec-head { font-size: 14pt; border-bottom: 2px solid var(--primary); padding-bottom: 5px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .tpl-creative .r-contact-link { color: #cbd5e1; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; font-family: 'Inter', sans-serif; font-size: 0.9em; }
+        .tpl-creative .r-skill-tag { display: block; background: rgba(255,255,255,0.1); margin-bottom: 5px; padding: 5px 10px; border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 0.9em; }
+        .tpl-creative .r-section-title { font-size: 18pt; color: #1e293b; border-left: 5px solid var(--primary); padding-left: 15px; margin-bottom: 25px; }
+        .tpl-creative .r-subtitle { font-family: 'Inter', sans-serif; font-weight: 700; color: #333; }
+        .tpl-creative .r-subline, .tpl-creative .r-list, .tpl-creative .r-date { font-family: 'Inter', sans-serif; color: #555; }
+
+        /* 11. GRADIENT (Student New) */
+        .tpl-gradient { padding: 40px; font-family: 'Lato', sans-serif; }
+        .tpl-gradient .r-header { 
+            background: linear-gradient(135deg, var(--primary) 0%, #a5b4fc 100%); 
+            color: white; 
+            padding: 40px; 
+            border-radius: 0 0 20px 20px; 
+            margin: -40px -40px 30px -40px; /* Pull to edges */
+            /* Changed to flex for left image */
             display: flex;
             align-items: center;
-            gap: 10px;
+            text-align: left;
         }
-        .tpl-timeline .r-section-title::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; }
-        .tpl-timeline .r-item { 
-            border-left: 2px solid #e5e7eb; 
-            padding-left: 20px; 
-            padding-bottom: 20px; 
-            margin-left: 5px; 
-            position: relative; 
+        .tpl-gradient .r-name { font-size: 32pt; font-weight: 700; margin-bottom: 5px; }
+        .tpl-gradient .r-role { font-size: 14pt; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px; }
+        /* Align contacts left */
+        .tpl-gradient .r-contacts { justify-content: flex-start; margin-top: 15px; gap: 20px; }
+        .tpl-gradient .r-contact-link { color: white; opacity: 0.9; }
+        .tpl-gradient .r-section-title { 
+            color: var(--primary); 
+            font-size: 16pt; 
+            font-weight: 700; 
+            border-bottom: 2px solid #e0e7ff; 
+            padding-bottom: 8px; 
+            margin-bottom: 20px; 
         }
-        .tpl-timeline .r-item::before {
-            content: '';
-            position: absolute;
-            left: -6px; /* -2px border / 2 - 5px radius */
-            top: 4px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--primary);
-            border: 2px solid white;
-            box-shadow: 0 0 0 1px var(--primary);
+        .tpl-gradient .r-photo { 
+            border: 4px solid white; 
+            width: 130px; 
+            height: 130px; 
+            /* Reset auto margins */
+            margin: 0; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
         }
-        .tpl-timeline .r-photo { border-radius: 8px; }
+        .tpl-gradient .r-photo-container {
+            /* Photo container adjustments */
+            width: 130px;
+            height: 130px;
+            margin: 0 30px 0 0;
+            background: transparent;
+            border: none;
+            flex-shrink: 0;
+        }
+
+        /* 12. GEOMETRIC (Student New) */
+        .tpl-geometric { padding: 50px; font-family: 'Oswald', sans-serif; background-color: #fff; }
+        .tpl-geometric .r-header { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            border-bottom: 4px solid var(--primary); 
+            padding-bottom: 30px; 
+            margin-bottom: 30px; 
+        }
+        .tpl-geometric .r-name { 
+            font-size: 36pt; 
+            text-transform: uppercase; 
+            color: #1e293b; 
+            line-height: 0.9; 
+        }
+        .tpl-geometric .r-role { 
+            font-size: 14pt; 
+            color: var(--primary); 
+            letter-spacing: 3px; 
+            margin-top: 5px; 
+        }
+        .tpl-geometric .r-section-title { 
+            background: #1e293b; 
+            color: white; 
+            padding: 8px 15px; 
+            font-size: 12pt; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            margin-bottom: 20px; 
+            display: inline-block;
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
+            min-width: 150px;
+        }
+        .tpl-geometric .r-item { 
+            margin-bottom: 15px; 
+            border-left: 2px solid #e2e8f0; 
+            padding-left: 15px; 
+        }
+        .tpl-geometric .r-subtitle { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.1em; }
+        .tpl-geometric .r-subline, .tpl-geometric .r-list, .tpl-geometric .r-contacts { font-family: 'Inter', sans-serif; }
+        .tpl-geometric .r-skill-tag { 
+            border: 2px solid var(--primary); 
+            color: var(--primary); 
+            font-weight: bold; 
+            padding: 4px 10px; 
+            border-radius: 0; 
+        }
+        .tpl-geometric .r-photo { 
+            border-radius: 0; 
+            width: 120px; 
+            height: 120px; 
+            object-fit: cover; 
+            border: 4px solid #1e293b; 
+        }
 
         /* --- PRINT STYLES (CRITICAL FOR PDF) --- */
         @media print {
-            /* Remove default browser margins to avoid white bottom strips */
-            @page {
-                margin: 0;
-            }
-
             /* Reset body/html to basic values to prevent clipping */
-            body, html {
-                width: 100% !important;
-                height: auto !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                background-color: white !important;
-                overflow: visible !important;
-            }
+            @page { margin: 0; }
+            body, html { width: 100% !important; height: auto !important; margin: 0 !important; padding: 0 !important; background: white !important; overflow: visible !important; }
 
             /* HIDE UI ELEMENTS */
             .app-header, 
@@ -586,13 +760,15 @@
             .remove-btn,
             .item-actions,
             .photo-label, 
-            .remove-photo-btn { 
+            .remove-photo-btn,
+            .rich-text-toolbar { 
                 display: none !important; 
             }
 
             /* RESET LAYOUT CONTAINERS to Block/Flow */
-            .app-container {
-                position: static !important;
+            .app-container, .workspace, .preview-panel {
+                display: block !important;
+                position: relative !important;
                 width: 100% !important;
                 height: auto !important;
                 max-width: none !important;
@@ -600,30 +776,8 @@
                 padding: 0 !important;
                 border: none !important;
                 box-shadow: none !important;
-                background: transparent !important;
+                background: white !important;
                 overflow: visible !important;
-                display: block !important;
-            }
-
-            .workspace {
-                position: static !important;
-                width: 100% !important;
-                height: auto !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                overflow: visible !important;
-                display: block !important;
-            }
-
-            .preview-panel {
-                position: static !important;
-                width: 100% !important;
-                height: auto !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                background: transparent !important;
-                overflow: visible !important;
-                display: block !important;
             }
 
             /* ENSURE RESUME PAGE IS VISIBLE */
@@ -633,6 +787,7 @@
                 box-shadow: none !important;
                 border: none !important;
                 min-height: auto !important;
+                visibility: visible !important;
             }
 
             /* Fix Colors & Links */
@@ -685,16 +840,33 @@
             <div class="header-controls">
                 <!-- Color Picker & Actions -->
                 <div class="tools-group">
-                    <!-- Added ID for toggling visibility -->
+                    <select id="modeSelect" class="tool-select" onchange="toggleMode()">
+                        <option value="professional">Professional</option>
+                        <option value="student">Student</option>
+                    </select>
+
+                    <select id="fontSelect" class="tool-select" onchange="updateFont(this.value)">
+                        <option value="'Inter', sans-serif">Modern (Inter)</option>
+                        <option value="'Merriweather', serif">Classic (Merriweather)</option>
+                        <option value="'Playfair Display', serif">Elegant (Playfair)</option>
+                        <option value="'Roboto Mono', monospace">Tech (Roboto Mono)</option>
+                        <option value="'Oswald', sans-serif">Bold (Oswald)</option>
+                        <option value="'Lato', sans-serif">Clean (Lato)</option>
+                    </select>
+
                     <div id="colorTool" class="color-picker-wrapper" title="Change Accent Color">
                         <label for="accentColor"><i class="fas fa-palette"></i></label>
                         <input type="color" id="accentColor" value="#4f46e5" onchange="updateAccentColor(this.value)">
                     </div>
-                    <button class="btn" onclick="exportJSON()" title="Save Backup">
+                    
+                    <button class="btn" onclick="exportJSON()" title="Save">
                         <i class="fas fa-file-export"></i> Save
                     </button>
-                    <button class="btn" onclick="document.getElementById('importFile').click()" title="Load Backup">
+                    <button class="btn" onclick="document.getElementById('importFile').click()" title="Load">
                         <i class="fas fa-file-import"></i> Load
+                    </button>
+                    <button class="btn btn-danger" onclick="resetData()" title="Reset">
+                        <i class="fas fa-trash"></i> Reset
                     </button>
                     <input type="file" id="importFile" style="display: none" accept=".json" onchange="importJSON(this)">
                 </div>
@@ -712,32 +884,26 @@
             <div class="editor-panel">
                 <div class="template-selector">
                     <div style="margin-bottom: 10px; font-weight: 600; color: #4b5563;">Select Template</div>
-                    <div class="template-grid">
-                        <div class="template-card active" onclick="setTemplate('classic')">
-                            <div class="template-name">Classic</div>
-                        </div>
-                        <div class="template-card" onclick="setTemplate('modern')">
-                            <div class="template-name">Modern</div>
-                        </div>
-                        <div class="template-card" onclick="setTemplate('executive')">
-                            <div class="template-name">Executive</div>
-                        </div>
-                        <div class="template-card" onclick="setTemplate('minimalist')">
-                            <div class="template-name">Minimalist</div>
-                        </div>
-                        <div class="template-card" onclick="setTemplate('sidebar')">
-                            <div class="template-name">Sidebar</div>
-                        </div>
-                        <!-- NEW TEMPLATE -->
-                        <div class="template-card" onclick="setTemplate('timeline')">
-                            <div class="template-name">Timeline</div>
-                        </div>
+                    <div class="template-grid" id="templateGrid">
+                        <!-- Filled by JS based on Mode -->
                     </div>
                 </div>
 
                 <div class="editor-content">
                     <form id="resumeForm" oninput="handleInput()">
                         
+                        <!-- Resume Options / Toggles -->
+                        <div class="form-group section-toggles">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="showExperience" onchange="toggleSectionVisibility()" checked> 
+                                Show Work Experience
+                            </label>
+                            <label class="toggle-label">
+                                <input type="checkbox" id="showProjects" onchange="toggleSectionVisibility()" checked> 
+                                Show Projects
+                            </label>
+                        </div>
+
                         <!-- Personal Info -->
                         <div class="section-title"><i class="fas fa-user"></i> Personal Details</div>
                         
@@ -784,19 +950,52 @@
 
                         <!-- Summary -->
                         <div class="section-title"><i class="fas fa-paragraph"></i> Professional Summary</div>
+                        <div class="rich-text-toolbar">
+                            <button type="button" class="rt-btn" onclick="insertTag('b', 'summary')">B</button>
+                            <button type="button" class="rt-btn" onclick="insertTag('i', 'summary')">I</button>
+                        </div>
                         <div class="form-group">
                             <textarea class="form-textarea" id="summary" placeholder="e.g. Innovative Product Designer with 7+ years of experience..."></textarea>
                         </div>
 
                         <!-- Experience -->
-                        <div class="section-title"><i class="fas fa-briefcase"></i> Experience</div>
-                        <div id="experience-list" class="dynamic-list"></div>
-                        <button type="button" class="add-btn" onclick="addExperience()"><i class="fas fa-plus"></i> Add Job</button>
+                        <div id="experience-section-wrapper">
+                            <div class="section-header">
+                                <div class="section-title"><i class="fas fa-briefcase"></i> Experience</div>
+                                <div class="section-reorder-controls">
+                                    <button type="button" class="reorder-btn" onclick="moveSection('experience', -1)">↑</button>
+                                    <button type="button" class="reorder-btn" onclick="moveSection('experience', 1)">↓</button>
+                                </div>
+                            </div>
+                            <div id="experience-list" class="dynamic-list"></div>
+                            <button type="button" class="add-btn" onclick="addExperience()"><i class="fas fa-plus"></i> Add Job</button>
+                        </div>
 
                         <!-- Education -->
-                        <div class="section-title"><i class="fas fa-graduation-cap"></i> Education</div>
-                        <div id="education-list" class="dynamic-list"></div>
-                        <button type="button" class="add-btn" onclick="addEducation()"><i class="fas fa-plus"></i> Add Education</button>
+                        <div id="education-section-wrapper">
+                            <div class="section-header">
+                                <div class="section-title"><i class="fas fa-graduation-cap"></i> Education</div>
+                                <div class="section-reorder-controls">
+                                    <button type="button" class="reorder-btn" onclick="moveSection('education', -1)">↑</button>
+                                    <button type="button" class="reorder-btn" onclick="moveSection('education', 1)">↓</button>
+                                </div>
+                            </div>
+                            <div id="education-list" class="dynamic-list"></div>
+                            <button type="button" class="add-btn" onclick="addEducation()"><i class="fas fa-plus"></i> Add Education</button>
+                        </div>
+
+                        <!-- Projects -->
+                        <div id="projects-section-wrapper">
+                            <div class="section-header">
+                                <div class="section-title"><i class="fas fa-project-diagram"></i> Projects</div>
+                                <div class="section-reorder-controls">
+                                    <button type="button" class="reorder-btn" onclick="moveSection('projects', -1)">↑</button>
+                                    <button type="button" class="reorder-btn" onclick="moveSection('projects', 1)">↓</button>
+                                </div>
+                            </div>
+                            <div id="projects-list" class="dynamic-list"></div>
+                            <button type="button" class="add-btn" onclick="addProject()"><i class="fas fa-plus"></i> Add Project</button>
+                        </div>
 
                         <!-- Skills -->
                         <div class="section-title"><i class="fas fa-tools"></i> Skills</div>
@@ -826,39 +1025,145 @@
     <script>
         // --- State Management ---
         let currentTemplate = 'classic';
-        let currentUserPhoto = null; // Stores Base64 string
-        let isPreviewMode = false;
+        let currentUserPhoto = null; 
+        let isStudentMode = false;
+        let sectionOrder = ['experience', 'education', 'projects'];
 
-        // --- Initialization ---
+        const templates = {
+            professional: [
+                { id: 'classic', name: 'Classic' },
+                { id: 'modern', name: 'Modern' },
+                { id: 'executive', name: 'Executive' },
+                { id: 'minimalist', name: 'Minimalist' },
+                { id: 'sidebar', name: 'Sidebar' },
+                { id: 'timeline', name: 'Timeline' }
+            ],
+            student: [
+                { id: 'vibrant', name: 'Vibrant' },
+                { id: 'futuristic', name: 'Futuristic' },
+                { id: 'classy', name: 'Classy' },
+                { id: 'creative', name: 'Creative' },
+                { id: 'gradient', name: 'Gradient' },
+                { id: 'geometric', name: 'Geometric' }
+            ]
+        };
+
         function init() {
-            // Check for saved data in localStorage
             const savedData = localStorage.getItem('resumeData');
             if (savedData) {
                 try {
                     const data = JSON.parse(savedData);
                     populateForm(data);
                 } catch (e) {
-                    console.error("Error loading saved data", e);
-                    // Fallback to default
-                    addExperience();
-                    addEducation();
+                    addExperience(); addEducation(); addProject();
                 }
             } else {
-                // Default empty state
-                addExperience();
-                addEducation();
+                addExperience(); addEducation(); addProject();
             }
-            // Trigger visibility check for color picker based on template
+            // Ensure UI matches state
+            renderTemplateGrid();
             toggleColorPickerVisibility(currentTemplate);
             updatePreview();
         }
 
-        // --- Auto-Save & Data Handling ---
-        function handleInput() {
-            saveData();
-            updatePreview();
+        // --- Core Logic ---
+        function toggleMode() {
+            const select = document.getElementById('modeSelect');
+            isStudentMode = select.value === 'student';
+            
+            // Set defaults for mode
+            const showExp = document.getElementById('showExperience');
+            const showProj = document.getElementById('showProjects');
+            
+            if (isStudentMode) {
+                showExp.checked = false; 
+                showProj.checked = true;
+                currentTemplate = 'vibrant'; // Default student template
+                sectionOrder = ['education', 'projects', 'experience']; // Default student order
+            } else {
+                showExp.checked = true;
+                showProj.checked = true;
+                currentTemplate = 'classic'; // Default professional template
+                sectionOrder = ['experience', 'education', 'projects']; // Default prof order
+            }
+            
+            renderTemplateGrid();
+            toggleSectionVisibility();
+            handleInput();
         }
 
+        function renderTemplateGrid() {
+            const grid = document.getElementById('templateGrid');
+            grid.innerHTML = '';
+            const list = isStudentMode ? templates.student : templates.professional;
+            
+            list.forEach(tpl => {
+                const div = document.createElement('div');
+                div.className = `template-card ${currentTemplate === tpl.id ? 'active' : ''}`;
+                div.onclick = () => setTemplate(tpl.id);
+                div.innerHTML = `<div class="template-name">${tpl.name}</div>`;
+                grid.appendChild(div);
+            });
+        }
+
+        function setTemplate(tplName) {
+            currentTemplate = tplName;
+            document.querySelectorAll('.template-card').forEach(el => el.classList.remove('active'));
+            // Find active in DOM and set class (naive loop since re-rendering grid wipes classes)
+            renderTemplateGrid(); 
+            toggleColorPickerVisibility(tplName);
+            handleInput();
+        }
+
+        function toggleSectionVisibility() {
+            const showExp = document.getElementById('showExperience').checked;
+            const showProj = document.getElementById('showProjects').checked;
+            document.getElementById('experience-section-wrapper').classList.toggle('hidden', !showExp);
+            document.getElementById('projects-section-wrapper').classList.toggle('hidden', !showProj);
+            handleInput();
+        }
+
+        function moveSection(sectionId, direction) {
+            const index = sectionOrder.indexOf(sectionId);
+            if (index === -1) return;
+            
+            const newIndex = index + direction;
+            if (newIndex >= 0 && newIndex < sectionOrder.length) {
+                // Swap
+                [sectionOrder[index], sectionOrder[newIndex]] = [sectionOrder[newIndex], sectionOrder[index]];
+                
+                // Visually reorder editor sections
+                const container = document.querySelector('.editor-content form');
+                const wrapper = document.getElementById(sectionId + '-section-wrapper');
+                const siblingWrapper = document.getElementById(sectionOrder[index] + '-section-wrapper');
+                
+                // Note: Editor reordering is visual sugar, but strict DOM reordering is complex with static elements around.
+                // We will rely on renderTemplate to show correct order in PDF.
+                // For editor, we just handle preview updates.
+                handleInput();
+            }
+        }
+
+        function insertTag(tag, elementId) {
+            const el = document.getElementById(elementId); // Only works for static textareas
+            // For dynamic textareas, this helper needs event passing. 
+            // Simplified: only works for main summary now. 
+            // A more robust rich text needs a contenteditable div or complex cursor logic.
+            // basic fallback: wrap value.
+            if(!el) return;
+            const start = el.selectionStart;
+            const end = el.selectionEnd;
+            const text = el.value;
+            const before = text.substring(0, start);
+            const selected = text.substring(start, end);
+            const after = text.substring(end);
+            el.value = `${before}<${tag}>${selected}</${tag}>${after}`;
+            handleInput();
+        }
+
+        // --- Data Handling ---
+        function handleInput() { saveData(); updatePreview(); }
+        
         function saveData() {
             const data = getFormData();
             localStorage.setItem('resumeData', JSON.stringify(data));
@@ -867,7 +1172,14 @@
         function getFormData() {
             return {
                 template: currentTemplate,
+                mode: isStudentMode ? 'student' : 'professional',
+                sectionOrder: sectionOrder,
+                toggles: {
+                    showExperience: document.getElementById('showExperience').checked,
+                    showProjects: document.getElementById('showProjects').checked
+                },
                 accentColor: document.getElementById('accentColor').value,
+                font: document.getElementById('fontSelect').value,
                 photo: currentUserPhoto,
                 personal: {
                     fullName: document.getElementById('fullName').value,
@@ -881,33 +1193,39 @@
                 summary: document.getElementById('summary').value,
                 experience: getExperienceData(),
                 education: getEducationData(),
+                projects: getProjectsData(),
                 skills: document.getElementById('skills').value
             };
         }
 
         function populateForm(data) {
-            // Restore Template
-            if(data.template) setTemplate(data.template);
+            if(data.mode) {
+                document.getElementById('modeSelect').value = data.mode;
+                isStudentMode = data.mode === 'student';
+            }
+            if(data.template) currentTemplate = data.template;
+            if(data.sectionOrder) sectionOrder = data.sectionOrder;
             
-            // Restore Color
+            if(data.toggles) {
+                document.getElementById('showExperience').checked = data.toggles.showExperience;
+                document.getElementById('showProjects').checked = data.toggles.showProjects;
+            }
             if(data.accentColor) {
                 document.getElementById('accentColor').value = data.accentColor;
                 updateAccentColor(data.accentColor);
             }
-
-            // Restore Photo
+            if(data.font) {
+                document.getElementById('fontSelect').value = data.font;
+                updateFont(data.font);
+            }
             if(data.photo) {
                 currentUserPhoto = data.photo;
-                const img = document.getElementById('photoPreview');
-                const label = document.getElementById('photoLabel');
-                const removeBtn = document.getElementById('removePhotoBtn');
-                img.src = data.photo;
-                img.style.display = 'block';
-                label.style.display = 'none';
-                removeBtn.style.display = 'inline-block';
+                document.getElementById('photoPreview').src = data.photo;
+                document.getElementById('photoPreview').style.display = 'block';
+                document.getElementById('photoLabel').style.display = 'none';
+                document.getElementById('removePhotoBtn').style.display = 'inline-block';
             }
-
-            // Restore Personal Info
+            
             if(data.personal) {
                 document.getElementById('fullName').value = data.personal.fullName || '';
                 document.getElementById('jobTitle').value = data.personal.jobTitle || '';
@@ -917,424 +1235,401 @@
                 document.getElementById('website').value = data.personal.website || '';
                 document.getElementById('location').value = data.personal.location || '';
             }
-
             document.getElementById('summary').value = data.summary || '';
             document.getElementById('skills').value = data.skills || '';
 
-            // Restore Dynamic Lists
-            const expList = document.getElementById('experience-list');
-            expList.innerHTML = '';
-            if(data.experience && data.experience.length > 0) {
-                data.experience.forEach(item => addExperience(item));
-            } else {
-                addExperience();
-            }
+            // Lists
+            document.getElementById('experience-list').innerHTML = '';
+            (data.experience || []).forEach(item => addExperience(item));
+            if(!data.experience?.length) addExperience();
 
-            const eduList = document.getElementById('education-list');
-            eduList.innerHTML = '';
-            if(data.education && data.education.length > 0) {
-                data.education.forEach(item => addEducation(item));
-            } else {
-                addEducation();
-            }
+            document.getElementById('education-list').innerHTML = '';
+            (data.education || []).forEach(item => addEducation(item));
+            if(!data.education?.length) addEducation();
+
+            document.getElementById('projects-list').innerHTML = '';
+            (data.projects || []).forEach(item => addProject(item));
+            if(!data.projects?.length) addProject();
+
+            renderTemplateGrid();
+            toggleSectionVisibility();
         }
 
-        // --- Export / Import JSON ---
-        function exportJSON() {
-            const data = getFormData();
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
-            const downloadAnchorNode = document.createElement('a');
-            downloadAnchorNode.setAttribute("href", dataStr);
-            downloadAnchorNode.setAttribute("download", "resume_backup.json");
-            document.body.appendChild(downloadAnchorNode); // required for firefox
-            downloadAnchorNode.click();
-            downloadAnchorNode.remove();
-        }
-
-        function importJSON(input) {
-            const file = input.files[0];
-            if(!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    populateForm(data);
-                    saveData(); // Save imported data to local storage
-                    updatePreview();
-                    alert('Resume loaded successfully!');
-                } catch(err) {
-                    alert('Error reading file. Please make sure it is a valid JSON backup.');
-                }
-            };
-            reader.readAsText(file);
-            input.value = ''; // Reset input
-        }
-
-        // --- Template & Color ---
-        function setTemplate(tplName) {
-            currentTemplate = tplName;
-            document.querySelectorAll('.template-card').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.template-card').forEach(el => {
-                if(el.getAttribute('onclick').includes(tplName)) el.classList.add('active');
-            });
-            toggleColorPickerVisibility(tplName);
-            handleInput(); // Save state
-        }
-        
+        // --- Helper Functions ---
         function toggleColorPickerVisibility(tplName) {
             const picker = document.getElementById('colorTool');
-            // Show picker for Modern OR Timeline, hide for others
-            if (tplName === 'modern' || tplName === 'timeline') {
-                picker.style.display = 'flex';
-            } else {
-                picker.style.display = 'none';
-            }
+            const show = ['modern','timeline','vibrant','futuristic','classy','creative','gradient','geometric'].includes(tplName);
+            picker.style.display = show ? 'flex' : 'none';
         }
-
-        function updateAccentColor(color) {
-            document.documentElement.style.setProperty('--primary', color);
-            // Darken slightly for hover effects
-            // Simple logic: if hex, just use the same for now or leave default logic
-            handleInput(); // Save state
-        }
-
-        // --- Photo Handling ---
+        function updateAccentColor(c) { document.documentElement.style.setProperty('--primary', c); handleInput(); }
+        function updateFont(f) { document.documentElement.style.setProperty('--font-body', f); handleInput(); }
         function handlePhotoUpload(input) {
-            const file = input.files[0];
-            if (file) {
+            if(input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     currentUserPhoto = e.target.result;
-                    
-                    // UI Update
-                    const img = document.getElementById('photoPreview');
-                    const label = document.getElementById('photoLabel');
-                    const removeBtn = document.getElementById('removePhotoBtn');
-                    
-                    img.src = currentUserPhoto;
-                    img.style.display = 'block';
-                    label.style.display = 'none';
-                    removeBtn.style.display = 'inline-block';
-                    
-                    handleInput(); // Save & Preview
+                    document.getElementById('photoPreview').src = currentUserPhoto;
+                    document.getElementById('photoPreview').style.display = 'block';
+                    document.getElementById('photoLabel').style.display = 'none';
+                    document.getElementById('removePhotoBtn').style.display = 'inline-block';
+                    handleInput();
                 }
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(input.files[0]);
             }
         }
-
         function removePhoto() {
             currentUserPhoto = null;
             document.getElementById('profilePhoto').value = '';
-            
-            const img = document.getElementById('photoPreview');
-            const label = document.getElementById('photoLabel');
-            const removeBtn = document.getElementById('removePhotoBtn');
-            
-            img.style.display = 'none';
-            img.src = '';
-            label.style.display = 'block';
-            removeBtn.style.display = 'none';
-            
+            document.getElementById('photoPreview').style.display = 'none';
+            document.getElementById('photoLabel').style.display = 'block';
+            document.getElementById('removePhotoBtn').style.display = 'none';
+            handleInput();
+        }
+        function resetData() { if(confirm("Clear all data?")) { localStorage.removeItem('resumeData'); location.reload(); } }
+        function cleanLink(url, type) { if(!url) return ''; if(type==='linkedin') return 'LinkedIn'; if(type==='website') return 'Portfolio'; return 'Link'; }
+
+        // --- Dynamic Lists ---
+        function moveItem(btn, direction) {
+            const item = btn.closest('.dynamic-item');
+            if (direction === -1) {
+                if (item.previousElementSibling) {
+                    item.parentNode.insertBefore(item, item.previousElementSibling);
+                    handleInput();
+                }
+            } else {
+                if (item.nextElementSibling) {
+                    item.parentNode.insertBefore(item.nextElementSibling, item);
+                    handleInput();
+                }
+            }
+        }
+        
+        function deleteItem(btn) {
+            btn.closest('.dynamic-item').remove();
             handleInput();
         }
 
-        // --- Dynamic Lists (With Reordering) ---
-        function moveUp(btn) {
-            const item = btn.closest('.dynamic-item');
-            if (item.previousElementSibling) {
-                item.parentNode.insertBefore(item, item.previousElementSibling);
-                handleInput();
-            }
-        }
-
-        function moveDown(btn) {
-            const item = btn.closest('.dynamic-item');
-            if (item.nextElementSibling) {
-                item.parentNode.insertBefore(item.nextElementSibling, item);
-                handleInput();
-            }
-        }
-
-        function addExperience(data = {}) {
-            const list = document.getElementById('experience-list');
-            const div = document.createElement('div');
-            div.className = 'dynamic-item';
+        function addExperience(data={}) {
+            const uniqueId = 'desc-' + Date.now() + Math.floor(Math.random() * 10000);
+            const div = document.createElement('div'); div.className = 'dynamic-item';
             div.innerHTML = `
                 <div class="item-actions">
-                    <button type="button" class="action-btn" onclick="moveUp(this)" title="Move Up"><i class="fas fa-arrow-up"></i></button>
-                    <button type="button" class="action-btn" onclick="moveDown(this)" title="Move Down"><i class="fas fa-arrow-down"></i></button>
-                    <button type="button" class="action-btn btn-delete" onclick="this.closest('.dynamic-item').remove(); handleInput()" title="Delete"><i class="fas fa-trash"></i></button>
+                    <button type="button" class="action-btn" onclick="moveItem(this, -1)" title="Move Up"><i class="fas fa-arrow-up"></i></button>
+                    <button type="button" class="action-btn" onclick="moveItem(this, 1)" title="Move Down"><i class="fas fa-arrow-down"></i></button>
+                    <button type="button" class="action-btn btn-delete" onclick="deleteItem(this)"><i class="fas fa-trash"></i></button>
                 </div>
-                <div class="form-group">
-                    <input type="text" class="form-input inp-role" placeholder="Job Title" value="${data.role || ''}" oninput="handleInput()">
+                <div class="form-group"><input type="text" class="form-input inp-role" placeholder="Job Title" value="${data.role||''}" oninput="handleInput()"></div>
+                <div class="form-group"><input type="text" class="form-input inp-company" placeholder="Company" value="${data.company||''}" oninput="handleInput()"></div>
+                <div class="form-group"><input type="text" class="form-input inp-date" placeholder="Date" value="${data.date||''}" oninput="handleInput()"></div>
+                <div class="rich-text-toolbar">
+                    <button type="button" class="rt-btn" onclick="insertTag('b', '${uniqueId}')">B</button>
+                    <button type="button" class="rt-btn" onclick="insertTag('i', '${uniqueId}')">I</button>
                 </div>
-                <div class="form-group">
-                    <input type="text" class="form-input inp-company" placeholder="Company" value="${data.company || ''}" oninput="handleInput()">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-input inp-date" placeholder="Date (e.g. 2020 - Present)" value="${data.date || ''}" oninput="handleInput()">
-                </div>
-                <div class="form-group">
-                    <textarea class="form-textarea inp-desc" placeholder="Key Achievements..." oninput="handleInput()">${data.desc || ''}</textarea>
-                </div>
+                <div class="form-group"><textarea id="${uniqueId}" class="form-textarea inp-desc" placeholder="Achievements..." oninput="handleInput()">${data.desc||''}</textarea></div>
             `;
-            list.appendChild(div);
+            document.getElementById('experience-list').appendChild(div);
         }
-
-        function addEducation(data = {}) {
-            const list = document.getElementById('education-list');
-            const div = document.createElement('div');
-            div.className = 'dynamic-item';
+        function addEducation(data={}) {
+            const div = document.createElement('div'); div.className = 'dynamic-item';
             div.innerHTML = `
                 <div class="item-actions">
-                    <button type="button" class="action-btn" onclick="moveUp(this)" title="Move Up"><i class="fas fa-arrow-up"></i></button>
-                    <button type="button" class="action-btn" onclick="moveDown(this)" title="Move Down"><i class="fas fa-arrow-down"></i></button>
-                    <button type="button" class="action-btn btn-delete" onclick="this.closest('.dynamic-item').remove(); handleInput()" title="Delete"><i class="fas fa-trash"></i></button>
+                    <button type="button" class="action-btn" onclick="moveItem(this, -1)" title="Move Up"><i class="fas fa-arrow-up"></i></button>
+                    <button type="button" class="action-btn" onclick="moveItem(this, 1)" title="Move Down"><i class="fas fa-arrow-down"></i></button>
+                    <button type="button" class="action-btn btn-delete" onclick="deleteItem(this)"><i class="fas fa-trash"></i></button>
                 </div>
-                <div class="form-group">
-                    <input type="text" class="form-input inp-degree" placeholder="Degree" value="${data.degree || ''}" oninput="handleInput()">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-input inp-school" placeholder="School/University" value="${data.school || ''}" oninput="handleInput()">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-input inp-date" placeholder="Year" value="${data.date || ''}" oninput="handleInput()">
-                </div>
-                <div class="form-group">
-                    <textarea class="form-textarea inp-desc" placeholder="Description (Optional)" oninput="handleInput()">${data.desc || ''}</textarea>
-                </div>
+                <div class="form-group"><input type="text" class="form-input inp-degree" placeholder="Degree" value="${data.degree||''}" oninput="handleInput()"></div>
+                <div class="form-group"><input type="text" class="form-input inp-school" placeholder="School" value="${data.school||''}" oninput="handleInput()"></div>
+                <div class="form-group"><input type="text" class="form-input inp-date" placeholder="Year" value="${data.date||''}" oninput="handleInput()"></div>
+                <div class="form-group"><textarea class="form-textarea inp-desc" placeholder="Description..." oninput="handleInput()">${data.desc||''}</textarea></div>
             `;
-            list.appendChild(div);
+            document.getElementById('education-list').appendChild(div);
+        }
+        function addProject(data={}) {
+            const div = document.createElement('div'); div.className = 'dynamic-item';
+            div.innerHTML = `
+                <div class="item-actions">
+                    <button type="button" class="action-btn" onclick="moveItem(this, -1)" title="Move Up"><i class="fas fa-arrow-up"></i></button>
+                    <button type="button" class="action-btn" onclick="moveItem(this, 1)" title="Move Down"><i class="fas fa-arrow-down"></i></button>
+                    <button type="button" class="action-btn btn-delete" onclick="deleteItem(this)"><i class="fas fa-trash"></i></button>
+                </div>
+                <div class="form-group"><input type="text" class="form-input inp-title" placeholder="Project Name" value="${data.title||''}" oninput="handleInput()"></div>
+                <div class="form-group"><input type="text" class="form-input inp-subtitle" placeholder="Tech Stack" value="${data.subtitle||''}" oninput="handleInput()"></div>
+                <div class="form-group"><input type="text" class="form-input inp-link" placeholder="Project URL (Optional)" value="${data.link||''}" oninput="handleInput()"></div>
+                <div class="form-group"><textarea class="form-textarea inp-desc" placeholder="Description..." oninput="handleInput()">${data.desc||''}</textarea></div>
+            `;
+            document.getElementById('projects-list').appendChild(div);
         }
 
+        // --- Getters ---
         function getExperienceData() {
-            const items = [];
-            document.querySelectorAll('#experience-list .dynamic-item').forEach(item => {
-                items.push({
-                    role: item.querySelector('.inp-role').value,
-                    company: item.querySelector('.inp-company').value,
-                    date: item.querySelector('.inp-date').value,
-                    desc: item.querySelector('.inp-desc').value
-                });
-            });
-            return items;
+            return Array.from(document.querySelectorAll('#experience-list .dynamic-item')).map(item => ({
+                role: item.querySelector('.inp-role').value,
+                company: item.querySelector('.inp-company').value,
+                date: item.querySelector('.inp-date').value,
+                desc: item.querySelector('.inp-desc').value
+            }));
         }
-
         function getEducationData() {
-            const items = [];
-            document.querySelectorAll('#education-list .dynamic-item').forEach(item => {
-                items.push({
-                    degree: item.querySelector('.inp-degree').value,
-                    school: item.querySelector('.inp-school').value,
-                    date: item.querySelector('.inp-date').value,
-                    desc: item.querySelector('.inp-desc').value
-                });
-            });
-            return items;
+            return Array.from(document.querySelectorAll('#education-list .dynamic-item')).map(item => ({
+                degree: item.querySelector('.inp-degree').value,
+                school: item.querySelector('.inp-school').value,
+                date: item.querySelector('.inp-date').value,
+                desc: item.querySelector('.inp-desc').value
+            }));
+        }
+        function getProjectsData() {
+            return Array.from(document.querySelectorAll('#projects-list .dynamic-item')).map(item => ({
+                title: item.querySelector('.inp-title').value,
+                subtitle: item.querySelector('.inp-subtitle').value,
+                link: item.querySelector('.inp-link').value,
+                desc: item.querySelector('.inp-desc').value
+            }));
         }
 
-        // --- Render Logic ---
-        function cleanLink(url, type) {
-            if (!url) return '';
-            if (type === 'linkedin') return 'LinkedIn';
-            if (type === 'website') return 'Portfolio';
-            return 'Link';
-        }
-
+        // --- Render Template ---
         function renderTemplate() {
-            const name = document.getElementById('fullName').value || 'Your Name';
-            const title = document.getElementById('jobTitle').value || 'Professional Title';
-            const email = document.getElementById('email').value || 'email@example.com';
-            const phone = document.getElementById('phone').value || '+1 (555) 000-0000';
-            const location = document.getElementById('location').value || 'City, Country';
-            const linkedin = document.getElementById('linkedin').value;
-            const website = document.getElementById('website').value;
-            const summary = document.getElementById('summary').value || 'Your professional summary will appear here.';
-            
-            let skillsStr = document.getElementById('skills').value;
-            let skills = skillsStr ? skillsStr.split(',').map(s => s.trim()).filter(s => s) : ['Skill 1', 'Skill 2', 'Skill 3'];
-
-            const experience = getExperienceData();
-            const education = getEducationData();
-
+            const d = getFormData();
             const page = document.getElementById('preview-page');
             
-            // Build Components
-            let contactsHtml = '';
-            if(email) contactsHtml += `<div class="r-contact-link"><i class="fas fa-envelope"></i> ${email}</div>`;
-            if(phone) contactsHtml += `<div class="r-contact-link"><i class="fas fa-phone"></i> ${phone}</div>`;
-            if(location) contactsHtml += `<div class="r-contact-link"><i class="fas fa-map-marker-alt"></i> ${location}</div>`;
-            if(linkedin) contactsHtml += `<a href="${linkedin}" target="_blank" class="r-contact-link"><i class="fab fa-linkedin"></i> ${cleanLink(linkedin, 'linkedin')}</a>`;
-            if(website) contactsHtml += `<a href="${website}" target="_blank" class="r-contact-link"><i class="fas fa-globe"></i> ${cleanLink(website, 'website')}</a>`;
-
-            const skillsHtml = skills.map(s => `<span class="r-skill-tag">${s}</span>`).join('');
+            // Basic Info
+            const name = d.personal.fullName || 'Your Name';
+            const title = d.personal.jobTitle || 'Professional Title';
             
-            const experienceHtml = experience.map(exp => `
-                <div class="r-item">
-                    <div class="r-subtitle">${exp.role || 'Job Title'} <span class="r-date">${exp.date || 'Date'}</span></div>
-                    <div class="r-subline">${exp.company || 'Company Name'}</div>
-                    <div class="r-list">${exp.desc || 'Job description goes here...'}</div>
-                </div>
-            `).join('');
+            // Contacts with placeholders
+            const email = d.personal.email || 'email@example.com';
+            const phone = d.personal.phone || '+1 (555) 000-0000';
+            const loc = d.personal.location || 'City, Country';
+            
+            // Change here: remove default placeholders for these two
+            const linkedin = d.personal.linkedin; 
+            const website = d.personal.website;
 
-            const educationHtml = education.map(edu => `
-                <div class="r-item">
-                    <div class="r-subtitle">${edu.degree || 'Degree'} <span class="r-date">${edu.date || 'Year'}</span></div>
-                    <div class="r-subline">${edu.school || 'University'}</div>
-                    ${edu.desc ? `<div class="r-list">${edu.desc}</div>` : ''}
-                </div>
-            `).join('');
+            let contactsHtml = '';
+            contactsHtml += `<div class="r-contact-link"><i class="fas fa-envelope"></i> ${email}</div>`;
+            contactsHtml += `<div class="r-contact-link"><i class="fas fa-phone"></i> ${phone}</div>`;
+            contactsHtml += `<div class="r-contact-link"><i class="fas fa-map-marker-alt"></i> ${loc}</div>`;
+            
+            // Conditional rendering
+            if (linkedin) {
+                contactsHtml += `<a href="${linkedin}" target="_blank" class="r-contact-link"><i class="fab fa-linkedin"></i> LinkedIn</a>`;
+            }
+            if (website) {
+                contactsHtml += `<a href="${website}" target="_blank" class="r-contact-link"><i class="fas fa-globe"></i> Portfolio</a>`;
+            }
 
-            // Photo HTML
-            const photoHtml = currentUserPhoto 
-                ? `<div class="r-photo-container"><img src="${currentUserPhoto}" class="r-photo" /></div>` 
-                : '';
+            const photoHtml = d.photo ? `<div class="r-photo-container"><img src="${d.photo}" class="r-photo"/></div>` : '';
+            
+            // Summary Placeholder
+            const summary = d.summary || 'Innovative professional with 5+ years of experience. Proven track record of delivering high-quality solutions and driving business growth. Adept at problem-solving and collaborating with cross-functional teams.';
 
-            // --- Layout Rendering ---
-            if (currentTemplate === 'sidebar') {
-                page.innerHTML = `
+            // Skills Placeholder
+            const skillsStr = d.skills || 'Skill 1, Skill 2, Skill 3, Skill 4, Skill 5';
+            const skillsHtml = skillsStr.split(',').filter(s=>s.trim()).map(s => `<span class="r-skill-tag">${s.trim()}</span>`).join('');
+
+            // Generated Sections with Placeholders
+            const sections = {
+                experience: d.experience.map(x => `
+                    <div class="r-item">
+                        <div class="r-subtitle">${x.role || 'Job Title'} <span class="r-date">${x.date || '20XX - Present'}</span></div>
+                        <div class="r-subline">${x.company || 'Company Name'}</div>
+                        <div class="r-list">${x.desc || '• Led a team of designers to create award-winning products.\n• Increased user engagement by 20% through UI improvements.'}</div>
+                    </div>`).join(''),
+                education: d.education.map(x => `
+                    <div class="r-item">
+                        <div class="r-subtitle">${x.degree || 'Degree Name'} <span class="r-date">${x.date || '20XX'}</span></div>
+                        <div class="r-subline">${x.school || 'University Name'}</div>
+                        <div class="r-list">${x.desc || 'Graduated with Honors. Member of the Student Association.'}</div>
+                    </div>`).join(''),
+                projects: d.projects.map(x => `
+                    <div class="r-item">
+                        <div class="r-subtitle">
+                            ${x.title || 'Project Name'} 
+                            ${x.link ? `<a href="${x.link}" target="_blank" style="font-size:0.8em; margin-left:5px;"><i class="fas fa-external-link-alt"></i></a>` : ''}
+                        </div>
+                        <div class="r-subline">${x.subtitle || 'Tech Stack / Role'}</div>
+                        <div class="r-list">${x.desc || 'Developed a full-stack application using React and Node.js. Implemented secure authentication and real-time data sync.'}</div>
+                    </div>`).join('')
+            };
+
+            const sectionTitles = { experience: 'Experience', education: 'Education', projects: 'Projects' };
+            const sectionIcons = { experience: 'briefcase', education: 'graduation-cap', projects: 'project-diagram' };
+
+            // Assemble Main Body based on Order
+            let mainBody = '';
+            d.sectionOrder.forEach(key => {
+                const content = sections[key];
+                // Check toggles, but also check if content exists (empty array maps to empty string)
+                // If array is empty (user deleted all items), we don't show the section.
+                // If array has items (even empty ones), content is not empty string due to placeholders above.
+                
+                let show = true;
+                if(key === 'experience' && !d.toggles.showExperience) show = false;
+                if(key === 'projects' && !d.toggles.showProjects) show = false;
+
+                if(show && content) {
+                    // Specific Template Tweaks
+                    let titleHtml = sectionTitles[key];
+                    if(currentTemplate === 'timeline' || currentTemplate === 'creative') {
+                        titleHtml = `<i class="fas fa-${sectionIcons[key]}" style="margin-right:8px;"></i> ${titleHtml}`;
+                    }
+                    
+                    mainBody += `
+                        <div class="r-section">
+                            <div class="r-section-title">${titleHtml}</div>
+                            ${content}
+                        </div>
+                    `;
+                }
+            });
+
+            // --- RENDER ---
+            let finalHtml = '';
+
+            if(currentTemplate === 'sidebar') {
+                finalHtml = `
                     <div class="resume-content tpl-sidebar">
                         <div class="sidebar-left">
                             ${photoHtml}
                             <div class="r-name">${name}</div>
                             <div class="r-role">${title}</div>
-                            <div style="margin: 20px 0; border-bottom: 1px solid #cbd5e1;"></div>
-                            
-                            <div class="left-section">
-                                <div class="section-label">Contact</div>
-                                <div class="r-contacts">${contactsHtml}</div>
-                            </div>
-
-                            <div class="left-section">
-                                <div class="section-label">Skills</div>
-                                <div class="r-skills">${skillsHtml}</div>
-                            </div>
+                            <div style="margin:20px 0; border-bottom:1px solid #cbd5e1;"></div>
+                            <div class="left-section"><div class="section-label">Contact</div><div class="r-contacts">${contactsHtml}</div></div>
+                            <div class="left-section"><div class="section-label">Skills</div><div class="r-skills">${skillsHtml}</div></div>
                         </div>
                         <div class="sidebar-right">
-                            <div class="r-section">
-                                <div class="r-section-title">Profile</div>
-                                <div>${summary}</div>
+                            <div class="r-section"><div class="r-section-title">Profile</div><div>${summary}</div></div>
+                            ${mainBody}
+                        </div>
+                    </div>`;
+            } else if (currentTemplate === 'creative') {
+                finalHtml = `
+                    <div class="resume-content tpl-creative">
+                        <div class="r-left-col">
+                            ${photoHtml}
+                            <div class="left-section">
+                                <div class="sec-head">Contact</div>
+                                ${contactsHtml}
                             </div>
-                            
-                            <div class="r-section">
-                                <div class="r-section-title">Experience</div>
-                                ${experienceHtml}
-                            </div>
-
-                            <div class="r-section">
-                                <div class="r-section-title">Education</div>
-                                ${educationHtml}
+                            <div class="left-section">
+                                <div class="sec-head">Skills</div>
+                                ${skillsHtml}
                             </div>
                         </div>
-                    </div>
-                `;
-            } else if (currentTemplate === 'timeline') {
-                // New Timeline Template Layout
-                page.innerHTML = `
-                    <div class="resume-content tpl-timeline">
+                        <div class="r-right-col">
+                            <div class="r-name">${name}</div>
+                            <div class="r-role">${title}</div>
+                            <div style="margin-bottom:30px; text-align:right;">${summary}</div>
+                            ${mainBody}
+                        </div>
+                    </div>`;
+            } else if (currentTemplate === 'classy') {
+                finalHtml = `
+                    <div class="resume-content tpl-classy">
                         <div class="r-header">
-                            <div style="display: flex; align-items: center; justify-content: space-between;">
-                                <div>
-                                    <div class="r-name">${name}</div>
-                                    <div class="r-role">${title}</div>
-                                    <div class="r-contacts" style="margin-top: 10px;">${contactsHtml}</div>
-                                </div>
-                                ${photoHtml}
-                            </div>
-                        </div>
-
-                        <div class="r-section">
-                            <div class="r-section-title"><i class="fas fa-user-circle" style="margin-right: 8px;"></i> Profile</div>
-                            <div>${summary}</div>
-                        </div>
-
-                        <div class="r-section">
-                            <div class="r-section-title"><i class="fas fa-briefcase" style="margin-right: 8px;"></i> Experience</div>
-                            ${experienceHtml}
-                        </div>
-
-                        <div class="r-section">
-                            <div class="r-section-title"><i class="fas fa-graduation-cap" style="margin-right: 8px;"></i> Education</div>
-                            ${educationHtml}
-                        </div>
-
-                        <div class="r-section">
-                            <div class="r-section-title"><i class="fas fa-tools" style="margin-right: 8px;"></i> Skills</div>
-                            <div class="r-skills">${skillsHtml}</div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                // Standard Layouts (Classic, Modern, Executive, Minimalist)
-                // Determine header layout (photo left or right?)
-                // Default: Photo Right
-                let headerContent = `
-                    <div class="r-header-text">
-                        <div class="r-name">${name}</div>
-                        <div class="r-role">${title}</div>
-                        <div class="r-contacts">${contactsHtml}</div>
-                    </div>
-                    ${photoHtml}
-                `;
-
-                // Executive & Minimalist handle header differently in CSS
-                if (currentTemplate === 'executive') {
-                    // Photo on left often looks better for Exec
-                    headerContent = `
-                        ${photoHtml}
-                        <div class="r-header-text" style="padding-left: 20px;">
                             <div class="r-name">${name}</div>
                             <div class="r-role">${title}</div>
                             <div class="r-contacts">${contactsHtml}</div>
                         </div>
-                    `;
-                }
-
-                if (currentTemplate === 'minimalist' || currentTemplate === 'classic') {
-                    // Centered stack
-                    headerContent = `
-                        ${photoHtml}
-                        <div class="r-name">${name}</div>
-                        <div class="r-role">${title}</div>
-                        <div class="r-contacts">${contactsHtml}</div>
-                    `;
-                }
-
-                page.innerHTML = `
-                    <div class="resume-content tpl-${currentTemplate}">
-                        <div class="r-header">
-                            ${headerContent}
-                        </div>
-
                         <div class="r-section">
-                            <div class="r-section-title">Professional Summary</div>
-                            <div>${summary}</div>
+                            <div class="r-section-title">Profile</div>
+                            <div style="max-width:600px; margin:0 auto;">${summary}</div>
                         </div>
-
-                        <div class="r-section">
-                            <div class="r-section-title">Experience</div>
-                            ${experienceHtml}
-                        </div>
-
-                        <div class="r-section">
-                            <div class="r-section-title">Education</div>
-                            ${educationHtml}
-                        </div>
-
+                        ${mainBody}
                         <div class="r-section">
                             <div class="r-section-title">Skills</div>
                             <div class="r-skills">${skillsHtml}</div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
+            } else if (currentTemplate === 'gradient') {
+                finalHtml = `
+                    <div class="resume-content tpl-gradient">
+                        <div class="r-header">
+                            ${photoHtml}
+                            <div class="r-header-text">
+                                <div class="r-name">${name}</div>
+                                <div class="r-role">${title}</div>
+                                <div class="r-contacts">${contactsHtml}</div>
+                            </div>
+                        </div>
+                        <div class="r-section"><div class="r-section-title">Profile</div><div>${summary}</div></div>
+                        ${mainBody}
+                        <div class="r-section"><div class="r-section-title">Skills</div><div class="r-skills">${skillsHtml}</div></div>
+                    </div>`;
+            } else if (currentTemplate === 'geometric') {
+                finalHtml = `
+                    <div class="resume-content tpl-geometric">
+                        <div class="r-header">
+                            <div class="r-header-text">
+                                <div class="r-name">${name}</div>
+                                <div class="r-role">${title}</div>
+                                <div class="r-contacts">${contactsHtml}</div>
+                            </div>
+                            ${photoHtml}
+                        </div>
+                        <div class="r-section"><div class="r-section-title">Profile</div><div>${summary}</div></div>
+                        ${mainBody}
+                        <div class="r-section"><div class="r-section-title">Skills</div><div class="r-skills">${skillsHtml}</div></div>
+                    </div>`;
+            } else if (currentTemplate === 'minimalist') {
+                // Modified structure for Minimalist: Text Left, Photo Right
+                finalHtml = `
+                    <div class="resume-content tpl-minimalist">
+                        <div class="r-header">
+                            <div class="r-header-text">
+                                <div class="r-name">${name}</div>
+                                <div class="r-role">${title}</div>
+                                <div class="r-contacts">${contactsHtml}</div>
+                            </div>
+                            ${photoHtml}
+                        </div>
+                        <div class="r-section"><div class="r-section-title">Profile</div><div>${summary}</div></div>
+                        ${mainBody}
+                        <div class="r-section"><div class="r-section-title">Skills</div><div class="r-skills">${skillsHtml}</div></div>
+                    </div>`;
+            } else {
+                // Header Construction for other templates (Classic, Modern, Executive, Timeline)
+                let header = '';
+                if(currentTemplate === 'timeline' || currentTemplate === 'vibrant') {
+                    header = `<div class="r-header">
+                        <div>
+                            <div class="r-name">${name}</div>
+                            <div class="r-role">${title}</div>
+                            <div class="r-contacts">${contactsHtml}</div>
+                        </div>
+                        ${photoHtml}
+                    </div>`;
+                } else if (currentTemplate === 'classic') {
+                    // Update Classic to have stacked text next to photo
+                    header = `
+                    <div class="r-header">
+                        ${photoHtml}
+                        <div class="r-header-text">
+                            <div class="r-name">${name}</div>
+                            <div class="r-role">${title}</div>
+                            <div class="r-contacts">${contactsHtml}</div>
+                        </div>
+                    </div>`;
+                } else {
+                    header = `<div class="r-header"><div class="r-header-text"><div class="r-name">${name}</div><div class="r-role">${title}</div><div class="r-contacts">${contactsHtml}</div></div>${photoHtml}</div>`;
+                }
+
+                // Inject summary at top of main body
+                let fullBody = `<div class="r-section"><div class="r-section-title">${currentTemplate === 'timeline' ? '<i class="fas fa-user-circle" style="margin-right:8px;"></i> ' : ''}Profile</div><div>${summary}</div></div>` + mainBody;
+                
+                // Append Skills at bottom
+                fullBody += `<div class="r-section"><div class="r-section-title">${currentTemplate === 'timeline' ? '<i class="fas fa-tools" style="margin-right:8px;"></i> ' : ''}Skills</div><div class="r-skills">${skillsHtml}</div></div>`;
+
+                finalHtml = `<div class="resume-content tpl-${currentTemplate}">${header}${fullBody}</div>`;
             }
+
+            page.innerHTML = finalHtml;
         }
 
+        // FIX: Define updatePreview
         function updatePreview() {
             renderTemplate();
         }
 
-        // --- Mobile Toggle ---
         function toggleMobileView() {
             document.body.classList.toggle('show-preview');
             const icon = document.querySelector('.mobile-toggle i');
@@ -1345,9 +1640,7 @@
             }
         }
 
-        // Initialize
         init();
-
     </script>
 </body>
 </html>
