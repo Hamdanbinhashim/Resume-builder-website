@@ -1,6 +1,8 @@
 # Resume-builder-website
 ResumeCraft
 
+Link:https://hamdanbinhashim.github.io/Resume-builder-website/
+
 ResumeCraft is a powerful, lightweight, and fully client-side resume builder designed to help users create professional, visually appealing resumes directly in their web browser.
 
 It features a split-screen interface with a real-time editor and live preview, offering distinct workflows for both Professionals and Students. The entire application is contained within a single HTML file, making it easy to deploy, share, and use offline.
